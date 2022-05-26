@@ -1,23 +1,26 @@
- CREATE TABLE `lawyers` (
+DROP TABLE if exists `lawyers`; 
+CREATE TABLE `lawyers` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`first_name` varchar(40),
 	`last_name` varchar(40) NOT NULL,
 	`email` varchar(40) NOT NULL,
 	`phone` varchar(15) NOT NULL,
 	`specialty` varchar(20) NOT NULL,
-	`available` BOOLEAN NOT NULL,
+	`available` BOOLEAN NOT NULL DEFAULT '1',
 	PRIMARY KEY (`id`)
 );
 
+DROP TABLE if exists `requests`; 
 CREATE TABLE `requests` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`description` TEXT NOT NULL,
-	`accepted` BOOLEAN NOT NULL,
-	`completed` BOOLEAN NOT NULL,
+	`accepted` BOOLEAN NOT NULL DEFAULT '0',
+	`completed` BOOLEAN NOT NULL DEFAULT '0',
 	`requester_id` INT NOT NULL,
 	PRIMARY KEY (`id`)
 );
 
+DROP TABLE if exists `requesters`; 
 CREATE TABLE `requesters` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`first_name` varchar(40),
