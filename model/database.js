@@ -7,18 +7,18 @@ const DB_PASS = process.env.DB_PASS;
 const DB_NAME = process.env.DB_NAME;
 
 const con = mysql.createConnection({
-  host: DB_HOST || "127.0.0.1",
-  user: DB_USER || "root",
-  password: DB_PASS,
-  database: DB_NAME || "oilaw",
-  multipleStatements: true
+	host: DB_HOST || "127.0.0.1",
+	user: DB_USER || "root",
+	password: DB_PASS,
+	database: DB_NAME || "oilaw",
+	multipleStatements: true,
 });
 
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
+con.connect(function (err) {
+	if (err) throw err;
+	console.log("Connected!");
 
-  let sql = `
+	let sql = `
   DROP TABLE if exists users; 
   CREATE TABLE users(
     id INT NOT NULL AUTO_INCREMENT, 
@@ -41,22 +41,12 @@ con.connect(function(err) {
   
   `;
 
-  con.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log("Table creation `users` was successful!");
+	con.query(sql, function (err, result) {
+		if (err) throw err;
+		console.log("Table creation `oilaw` was successful!");
 
-    console.log("Closing...");
-  });
+		console.log("Closing...");
+	});
 
-  con.end();
+	con.end();
 });
-
-//DROP TABLE if exists attorneys; 
-  // CREATE TABLE attorneys(
-  //   id INT NOT NULL AUTO_INCREMENT, 
-  //   first_name VARCHAR(100) not null, 
-  //   last_name VARCHAR(100) not null, 
-  //   email VARCHAR(50) not null, 
-  //   tel_number INT not null, 
-  //   PRIMARY KEY (id),
-  //   FOREIGN KEY (user_id));
