@@ -4,6 +4,7 @@ const db = require("../model/helper");
 const bcrypt = require("bcrypt");
 
 const generateAccessToken = require("../auth/generateAccessToken");
+const validateToken = require("../auth/validateToken");
 
 // create admin account
 // "/api/admin"
@@ -55,7 +56,7 @@ router.post("/login", async (req, res, next) => {
 			// generate access token. need to await here as well or an empty object will be returned since this code is sync, but the token from the async jwt.sign hasn't arrived yet
 			const accessToken = await generateAccessToken(user);
 			console.log({ accessToken });
-			res.send({ accessToken: accessToken, message: "Login Successful!" });
+			res.send({ accessToken, message: "Login Successful!" });
 		} else {
 			res.status(404).send({ error: "User does not exist" });
 		}
@@ -65,4 +66,12 @@ router.post("/login", async (req, res, next) => {
 	}
 });
 
+// get all requests
+router.get("/requests", validateToken, (req, res) => {
+	const { first_name, last_name, role } = req.user;
+	console.log(first_name, last_name, role);
+	console.log(req.user);
+});
+// get all lawyers
+// get all requesters
 module.exports = router;
