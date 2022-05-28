@@ -1,13 +1,13 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
-var cors = require("cors");
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const logger = require("morgan");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
-var apiRouter = require("./routes/admin.js");
+const adminRouter = require("./routes/admin.js");
 
-var app = express();
+const app = express();
 
 app.use(cors());
 app.use(logger("dev"));
@@ -21,7 +21,7 @@ app.get("/", function (req, res, next) {
 	res.send("Access the API at path /api");
 });
 
-app.use("/api", apiRouter);
+app.use("/api/admin", adminRouter);
 
 // app.use( express.static('public') );
 
