@@ -70,7 +70,17 @@ router.post("/login", async (req, res, next) => {
 router.get("/requests", validateToken, (req, res) => {
 	const { first_name, last_name, role } = req.user;
 	console.log(first_name, last_name, role);
-	console.log(req.user);
+	
+  try {
+		const results = await db("SELECT * FROM requests");
+		if (results.data.length) {
+			res.status(200).send(results.data);
+		} else {
+			res.status(404).send({ error: "Resource not found" });
+		}
+	} catch (err) {
+		res.status(500).send({ Error: err });
+	}
 });
 // get all lawyers
 // get all requesters

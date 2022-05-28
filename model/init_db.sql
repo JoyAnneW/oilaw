@@ -26,10 +26,10 @@ CREATE TABLE `requests` (
 DROP TABLE IF EXISTS `requesters`;
 
 CREATE TABLE `requesters` (
-	`id` INT NOT NULL AUTO_INCREMENT,
-	`needs` varchar(20) NOT NULL,
+	`id` INT NOT NULL AUTO_INCREMENT,	
 	`user_id` INT NOT NULL,
 	`request_id` INT NOT NULL,
+	`contact_pref` varchar(5) NOT NULL,
 	PRIMARY KEY (`id`)
 );
 DROP TABLE IF EXISTS `lawyer_assignments`;
