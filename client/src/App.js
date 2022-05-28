@@ -34,7 +34,7 @@ function App() {
 	}, []);
 
 	return (
-		<div className="container">
+		<div className="">
 			<Header />
 			<button
 				className={`btn ${isAdmin ? "btn-outline-danger" : ""}`}
