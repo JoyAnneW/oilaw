@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS `users`;
+
 CREATE TABLE `users` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`first_name` varchar(40) NOT NULL,
@@ -9,14 +11,19 @@ CREATE TABLE `users` (
 	PRIMARY KEY (`id`)
 );
 
+DROP TABLE IF EXISTS `requests`;
+
 CREATE TABLE `requests` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`description` TEXT NOT NULL,
 	`accepted` BOOLEAN NOT NULL DEFAULT '0',
 	`assigned` BOOLEAN NOT NULL DEFAULT '0',
 	`completed` BOOLEAN NOT NULL DEFAULT '0',
+	`created_at` DATETIME NOT NULL,
 	PRIMARY KEY (`id`)
 );
+
+DROP TABLE IF EXISTS `requesters`;
 
 CREATE TABLE `requesters` (
 	`id` INT NOT NULL AUTO_INCREMENT,
@@ -25,11 +32,13 @@ CREATE TABLE `requesters` (
 	`request_id` INT NOT NULL,
 	PRIMARY KEY (`id`)
 );
+DROP TABLE IF EXISTS `lawyer_assignments`;
 
 CREATE TABLE `lawyer_assignments` (
 	`user_id` INT NOT NULL,
 	`request_id` INT NOT NULL
 );
+DROP TABLE IF EXISTS `lawyers`;
 
 CREATE TABLE `lawyers` (
 	`id` INT NOT NULL AUTO_INCREMENT,
