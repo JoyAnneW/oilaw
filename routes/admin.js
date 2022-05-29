@@ -67,11 +67,11 @@ router.post("/login", async (req, res, next) => {
 });
 
 // get all requests
-router.get("/requests", validateToken, (req, res) => {
+router.get("/requests", validateToken, async (req, res) => {
 	const { first_name, last_name, role } = req.user;
 	console.log(first_name, last_name, role);
-	
-  try {
+
+	try {
 		const results = await db("SELECT * FROM requests");
 		if (results.data.length) {
 			res.status(200).send(results.data);

@@ -6,6 +6,8 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 const adminRouter = require("./routes/admin.js");
+const usersRouter = require("./routes/users");
+const requestersRouter = require("./routes/requesters");
 
 const app = express();
 
@@ -22,6 +24,7 @@ app.get("/", function (req, res, next) {
 });
 
 app.use("/api/admin", adminRouter);
+app.use("/api/requesters", requestersRouter);
 
 // app.use( express.static('public') );
 
