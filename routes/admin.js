@@ -84,5 +84,21 @@ router.get("/requests", validateToken, async (req, res) => {
 	}
 });
 // get all lawyers
+router.get("/lawyers", validateToken, async (req, res) => {
+	const { first_name, last_name, role } = req.user;
+	console.log(first_name, last_name, role);
+
+	try {
+		//* need to add assignments here too
+		const results = await db("SELECT * FROM users WHERE role='lawyer';");
+		if (results.data.length) {
+			res.status(200).send(results.data);
+		} else {
+			res.status(404).send({ error: "Resource not found" });
+		}
+	} catch (err) {
+		res.status(500).send({ Error: err });
+	}
+});
 // get all requesters
 module.exports = router;
