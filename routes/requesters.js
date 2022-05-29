@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
 	try {
 		let results = await db(sqlInsert);
 		// return a combined object from the 3 tables with all info about a request
-		const sqlJoin = `SELECT  users.id, users.first_name, users.last_name, users.email, users.phone, requesters.id, requesters.contact_pref, requests.* FROM requesters INNER JOIN users ON requesters.user_id=users.id INNER JOIN requests ON requesters.id=requests.requester_id;`;
+		const sqlJoin = `SELECT users.id, users.first_name, users.last_name, users.email, users.phone, requesters.id, requesters.contact_pref, requests.* FROM requesters INNER JOIN users ON requesters.user_id=users.id INNER JOIN requests ON requesters.id=requests.requester_id;`;
 		results = await db(sqlJoin);
 		if (results.data.length) {
 			res.status(200).send(results.data);

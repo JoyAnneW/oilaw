@@ -72,7 +72,8 @@ router.get("/requests", validateToken, async (req, res) => {
 	console.log(first_name, last_name, role);
 
 	try {
-		const results = await db("SELECT * FROM requests");
+		const sqlJoin = `SELECT  users.id, users.first_name, users.last_name, users.email, users.phone, requesters.id, requesters.contact_pref, requests.* FROM requesters INNER JOIN users ON requesters.user_id=users.id INNER JOIN requests ON requesters.id=requests.requester_id;`;
+		const results = await db(sqlJoin);
 		if (results.data.length) {
 			res.status(200).send(results.data);
 		} else {
