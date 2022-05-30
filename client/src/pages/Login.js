@@ -17,13 +17,35 @@ export default function Login() {
 		authenticateUser();
 	};
 
-	//Handle Login API Integration here
-	const authenticateUser = () => {};
+	//Handle Login
+	const authenticateUser = async () => {
+		try {
+			// this fetch returns an object with accessToken property
+			const response = await fetch("http://localhost:5000/api/admin/login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(credentials),
+			});
+			// need to convert response to readable object
+			if (response.ok) {
+				const jsonResponse = await response.json();
+				console.log(jsonResponse);
+				const token = jsonResponse.accessToken;
+				// the token is saved in local storage
+				localStorage.setItem("token", token);
+			}
+		} catch (error) {
+			console.log({ error });
+		}
+	};
 
 	return (
 		<div className="p-6 w-64 mx-auto ">
 			<form
-				action="POST"
+				method="POST"
+				action="http://localhost:5000/api/admin/login"
 				onSubmit={(event) => handleSubmit(event)}
 				className="flex flex-col gap-4"
 			>
