@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
 	const [credentials, setCredentials] = useState({
 		email: "",
 		password: "",
 	});
+
+	let navigate = useNavigate();
 
 	const handleInputChange = (event) => {
 		const name = event.target.name;
@@ -35,6 +38,9 @@ export default function Login() {
 				const token = jsonResponse.accessToken;
 				// the token is saved in local storage
 				localStorage.setItem("token", token);
+
+				// After successful login, navigate to admin page
+				navigate("/private/admin");
 			}
 		} catch (error) {
 			console.log({ error });
@@ -57,6 +63,7 @@ export default function Login() {
 						id="email"
 						value={credentials.email}
 						onChange={(event) => handleInputChange(event)}
+						required
 					/>
 				</div>
 				<div className="flex flex-col gap-1">
@@ -67,6 +74,7 @@ export default function Login() {
 						id="password"
 						value={credentials.password}
 						onChange={(event) => handleInputChange(event)}
+						required
 					/>
 				</div>
 				<button className="bg-orange-500" type="submit">
