@@ -6,8 +6,9 @@ import Admin from "../pages/Admin";
 
 // hook determines authentication state
 const useAuth = () => {
+	const token = localStorage.getItem("token");
 	// is token in LS?
-	return true;
+	return token ? true : false;
 };
 export default function PrivateRoute() {
 	// if user is authenticated, then render all children of this component, otherwise navigate to login page
