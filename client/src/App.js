@@ -4,6 +4,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import NavBar from "./components/NavBar";
 import Admin from "./pages/Admin";
 import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
 
 function App() {
 	return (
@@ -12,6 +13,7 @@ function App() {
 				<NavBar />
 				<Routes>
 					<Route exact path="/login" element={<Login />} />
+					<Route exact path="/signup" element={<SignUp />} />
 					{/* this protects the admin view */}
 					<Route path="/private/admin" element={<PrivateRoute />}>
 						<Route path="" element={<Admin />} />

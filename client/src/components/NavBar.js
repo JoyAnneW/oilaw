@@ -15,9 +15,12 @@ export default function NavBar() {
 					Login
 				</Link>
 
-				<a className="block py-2 px-4  bg-orange-500 text-orange-50 hover:bg-orange-600 border-b-4 border-orange-700">
+				<Link
+					to="/signup"
+					className="block py-2 px-4  bg-orange-500 text-orange-50 hover:bg-orange-600 border-b-4 border-orange-700"
+				>
 					Volunteer
-				</a>
+				</Link>
 			</div>
 		</nav>
 	);
