@@ -5,12 +5,14 @@ import NavBar from "./components/NavBar";
 import Admin from "./pages/Admin";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import ContactForm from "./components/ContactForm";
 
 function App() {
 	return (
 		<div className="">
 			<BrowserRouter>
 				<NavBar />
+				<ContactForm />
 				<Routes>
 					<Route exact path="/login" element={<Login />} />
 					<Route exact path="/signup" element={<SignUp />} />

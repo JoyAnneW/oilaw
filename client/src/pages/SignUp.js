@@ -10,6 +10,9 @@ export default function SignUp() {
 		password: "",
 		specialty: "",
 	});
+
+	const navigate = useNavigate();
+
 	const handleInputChange = (event) => {
 		const name = event.target.name;
 		const value = event.target.value;
@@ -27,8 +30,8 @@ export default function SignUp() {
 			});
 			if (response.ok) {
 				const jsonResponse = await response.json();
-
 				setLawyerDetails(jsonResponse);
+				navigate("/login");
 			}
 		} catch (error) {
 			console.log(error);
