@@ -12,8 +12,8 @@ function App() {
 		<div className="">
 			<BrowserRouter>
 				<NavBar />
-				<ContactForm />
 				<Routes>
+					<Route path="/" element={<ContactForm />} />
 					<Route exact path="/login" element={<Login />} />
 					<Route exact path="/signup" element={<SignUp />} />
 					{/* this protects the admin view */}

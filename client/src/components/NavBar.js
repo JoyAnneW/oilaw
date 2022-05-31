@@ -1,11 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+const logout = () => {
+	localStorage.removeItem("token");
+};
+
 export default function NavBar() {
 	return (
 		<nav className="flex justify-between bg-orange-50 p-6">
 			<Link to="/">
-				<h1 className="tracking-tighter text-green-900">Oilaw</h1>
+				<h1 className="tracking-tighter text-green-900" onClick={logout}>
+					Oilaw
+				</h1>
 			</Link>
 			<div className="flex items-center gap-2 text-lg tracking-wide">
 				<Link

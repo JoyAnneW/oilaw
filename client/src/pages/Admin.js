@@ -48,8 +48,13 @@ export default function Admin() {
 		console.log({ allLawyers });
 	}, []);
 
+	const logout = () => {
+		localStorage.removeItem("token");
+	};
+
 	return (
 		<div>
+			<button onClick={logout}>Log Out</button>
 			{caseData.map((issue) => {
 				return (
 					<div key={issue.id}>
