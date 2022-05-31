@@ -30,4 +30,16 @@
 	button {
 		@apply block py-2 px-4 bg-orange-500 hover:bg-orange-600 text-orange-50  border-b-4 border-orange-700;
 	}
+
+	table {
+		@apply border border-orange-50 shadow text-left text-sm;
+	}
+
+	table thead th {
+		@apply px-5 py-3 border-b-2 border-orange-100 bg-orange-50 font-semibold  uppercase;
+	}
+
+	table tbody td {
+		@apply px-5 py-3 border-b border-orange-100;
+	}
 }
