@@ -89,8 +89,11 @@ router.get("/lawyers", validateToken, async (req, res) => {
 	console.log(first_name, last_name, role);
 
 	try {
-		//* need to add assignments here too
-		const results = await db("SELECT * FROM users WHERE role='lawyer';");
+		//* need to add assignments here too. Different syntax to achieve sql join
+
+		const results = await db(
+			"SELECT * FROM users, lawyers WHERE role='lawyer' AND users.id=lawyers.user_id;"
+		);
 		if (results.data.length) {
 			res.status(200).send(results.data);
 		} else {

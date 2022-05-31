@@ -15,8 +15,10 @@ router.post("/", async (req, res, next) => {
 		const sqlInsert = `INSERT INTO users (first_name, last_name, email, phone, role,password) VALUES ("${first_name}","${last_name}","${email}","${phone}","lawyer",'${hashedPassword}'); INSERT INTO lawyers (specialty, user_id) VALUES ("${specialty}", (SELECT max(id) FROM users where role="lawyer"));`;
 		let results = await db(sqlInsert);
 
-		//* need to add assignments here too
-		results = await db("SELECT * FROM users WHERE role='lawyer';");
+		//* need to add assignments here too. Different syntax to achieve sql join
+		results = await db(
+			"SELECT * FROM users, lawyers WHERE role='lawyer' AND users.id=lawyers.user_id;"
+		);
 		if (results.data.length) {
 			res.status(200).send(results.data);
 		} else {
