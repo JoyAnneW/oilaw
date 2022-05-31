@@ -24,7 +24,7 @@ export default function Login() {
 	const authenticateUser = async () => {
 		try {
 			// this fetch returns an object with accessToken property
-			const response = await fetch("http://localhost:5000/api/admin/login", {
+			const response = await fetch("http://localhost:5000/api/login", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -34,13 +34,14 @@ export default function Login() {
 			// need to convert response to readable object
 			if (response.ok) {
 				const jsonResponse = await response.json();
-				console.log(jsonResponse);
-				const token = jsonResponse.accessToken;
+				console.log({ jsonResponse });
+				const { accessToken, role } = jsonResponse;
 				// the token is saved in local storage
-				localStorage.setItem("token", token);
+				localStorage.setItem("token", accessToken);
 
 				// After successful login, navigate to admin page
-				navigate("/private/admin");
+				if (role === "admin") navigate("/private/admin");
+				if (role === "lawyer") navigate("/profile");
 			}
 		} catch (error) {
 			console.log({ error });
@@ -51,7 +52,7 @@ export default function Login() {
 		<div className="p-6 w-64 mx-auto ">
 			<form
 				method="POST"
-				action="http://localhost:5000/api/admin/login"
+				action="http://localhost:5000/api/login"
 				onSubmit={(event) => handleSubmit(event)}
 				className="flex flex-col gap-4"
 			>

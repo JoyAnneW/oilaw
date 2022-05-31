@@ -6,6 +6,7 @@ import Admin from "./pages/Admin";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import ContactForm from "./components/ContactForm";
+import Profile from "./pages/Profile";
 
 function App() {
 	return (
@@ -16,9 +17,13 @@ function App() {
 					<Route path="/" element={<ContactForm />} />
 					<Route exact path="/login" element={<Login />} />
 					<Route exact path="/signup" element={<SignUp />} />
-					{/* this protects the admin view */}
+
 					<Route path="/private/admin" element={<PrivateRoute />}>
 						<Route path="" element={<Admin />} />
+					</Route>
+
+					<Route path="/profile" element={<PrivateRoute />}>
+						<Route path="" element={<Profile />} />
 					</Route>
 				</Routes>
 			</BrowserRouter>

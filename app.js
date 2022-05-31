@@ -5,6 +5,7 @@ const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
+const loginRouter = require("./routes/login");
 const adminRouter = require("./routes/admin.js");
 const lawyersRouter = require("./routes/lawyers");
 const requestersRouter = require("./routes/requesters");
@@ -23,6 +24,7 @@ app.get("/", function (req, res, next) {
 	res.send("Access the API at path /api");
 });
 
+app.use("/api/login", loginRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/requesters", requestersRouter);
 app.use("/api/lawyers", lawyersRouter);

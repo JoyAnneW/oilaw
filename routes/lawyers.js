@@ -32,12 +32,12 @@ router.post("/", async (req, res, next) => {
 
 // Get account details
 router.get("/profile", validateToken, async (req, res) => {
-	const { first_name, last_name, role } = req.user;
+	const { first_name, last_name, email, role } = req.user;
 	console.log(first_name, last_name, role);
 
 	try {
-		const sqlJoin = `SELECT  users.id, users.first_name, users.last_name, users.email, users.phone, requesters.id, requesters.contact_pref, requests.* FROM requesters INNER JOIN users ON requesters.user_id=users.id INNER JOIN requests ON requesters.id=requests.requester_id;`;
-		const results = await db(sqlJoin);
+		const sql = `SELECT * FROM users, lawyers WHERE role='lawyer'AND users.email=${email} AND users.id=lawyers.user_id;`;
+		const results = await db(sql);
 		if (results.data.length) {
 			res.status(200).send(results.data);
 		} else {
