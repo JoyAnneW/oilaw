@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../model/helper");
 const bcrypt = require("bcrypt");
-
+const checkRole = require("../auth/checkRole");
 const validateToken = require("../auth/validateToken");
 
 // create admin account
@@ -27,42 +27,52 @@ router.post("/", async (req, res, next) => {
 	}
 });
 
-// get all requests
-router.get("/requests", validateToken, async (req, res) => {
-	const { first_name, last_name, role } = req.user;
-	console.log(first_name, last_name, role);
+// get all requests. checkRole middleware receives an array of all the roles allowed to access this data.
+router.get(
+	"/requests",
+	validateToken,
+	checkRole(["admin"]),
+	async (req, res) => {
+		const { first_name, last_name, role } = req.user;
+		console.log(first_name, last_name, role);
 
-	try {
-		const sqlJoin = `SELECT  users.id, users.first_name, users.last_name, users.email, users.phone, requesters.id, requesters.contact_pref, requests.* FROM requesters INNER JOIN users ON requesters.user_id=users.id INNER JOIN requests ON requesters.id=requests.requester_id;`;
-		const results = await db(sqlJoin);
-		if (results.data.length) {
-			res.status(200).send(results.data);
-		} else {
-			res.status(404).send({ error: "Resource not found" });
+		try {
+			const sqlJoin = `SELECT  users.id, users.first_name, users.last_name, users.email, users.phone, requesters.id, requesters.contact_pref, requests.* FROM requesters INNER JOIN users ON requesters.user_id=users.id INNER JOIN requests ON requesters.id=requests.requester_id;`;
+			const results = await db(sqlJoin);
+			if (results.data.length) {
+				res.status(200).send(results.data);
+			} else {
+				res.status(404).send({ error: "Resource not found" });
+			}
+		} catch (err) {
+			res.status(500).send({ Error: err });
 		}
-	} catch (err) {
-		res.status(500).send({ Error: err });
 	}
-});
+);
 // get all lawyers
-router.get("/lawyers", validateToken, async (req, res) => {
-	const { first_name, last_name, email, phone, role } = req.user;
-	console.log(first_name, last_name, email, phone, role);
+router.get(
+	"/lawyers",
+	validateToken,
+	checkRole(["admin"]),
+	async (req, res) => {
+		const { first_name, last_name, email, phone, role } = req.user;
+		console.log(first_name, last_name, email, phone, role);
 
-	try {
-		//* need to add assignments here too. Different syntax to achieve sql join
+		try {
+			//* need to add assignments here too. Different syntax to achieve sql join
 
-		const results = await db(
-			"SELECT * FROM users, lawyers WHERE role='lawyer' AND users.id=lawyers.user_id;"
-		);
-		if (results.data.length) {
-			res.status(200).send(results.data);
-		} else {
-			res.status(404).send({ error: "Resource not found" });
+			const results = await db(
+				"SELECT * FROM users, lawyers WHERE role='lawyer' AND users.id=lawyers.user_id;"
+			);
+			if (results.data.length) {
+				res.status(200).send(results.data);
+			} else {
+				res.status(404).send({ error: "Resource not found" });
+			}
+		} catch (err) {
+			res.status(500).send({ Error: err });
 		}
-	} catch (err) {
-		res.status(500).send({ Error: err });
 	}
-});
+);
 // get all requesters
 module.exports = router;

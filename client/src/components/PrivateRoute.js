@@ -1,6 +1,5 @@
 import React from "react";
 import { Outlet, Navigate } from "react-router-dom";
-import Admin from "../pages/Admin";
 
 // Outlet allows us to render children wrapped inside this route component
 
@@ -10,6 +9,7 @@ const useAuth = () => {
 	// is token in LS?
 	return token ? true : false;
 };
+
 export default function PrivateRoute() {
 	// if user is authenticated, then render all children of this component, otherwise navigate to login page
 	const isAuth = useAuth();
