@@ -17,7 +17,7 @@ const validateToken = (req, res, next) => {
 		if (err) res.status(403).send({ message: "Token is not valid" });
 		// if past this check, then we have a valid user. Set req.user to that now authenticated user. now I can use req.user in the get request to get the details of this user
 		req.user = decoded.user;
-		console.log(req.user, decoded);
+		console.log(req.user, { decoded });
 
 		next();
 	});

@@ -36,7 +36,7 @@ router.get("/profile", validateToken, async (req, res) => {
 	console.log(first_name, last_name, role);
 
 	try {
-		const sql = `SELECT * FROM users, lawyers WHERE role='lawyer'AND users.email=${email} AND users.id=lawyers.user_id;`;
+		const sql = `SELECT * FROM users WHERE email='${email}';`;
 		const results = await db(sql);
 		if (results.data.length) {
 			res.status(200).send(results.data);

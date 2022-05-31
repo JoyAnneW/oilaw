@@ -20,7 +20,7 @@ export default function Login() {
 		authenticateUser();
 	};
 
-	//Handle Login
+	//Handle Login based on role
 	const authenticateUser = async () => {
 		try {
 			// this fetch returns an object with accessToken property
@@ -39,8 +39,9 @@ export default function Login() {
 				// the token is saved in local storage
 				localStorage.setItem("token", accessToken);
 
-				// After successful login, navigate to admin page
+				// After successful login, navigate to admin page if role is admin
 				if (role === "admin") navigate("/private/admin");
+				// navigate to profile if role is profile
 				if (role === "lawyer") navigate("/profile");
 			}
 		} catch (error) {

@@ -11,6 +11,10 @@
 		@apply text-6xl;
 	}
 
+	h2 {
+		@apply text-lg;
+	}
+
 	a {
 		@apply cursor-pointer;
 	}
