@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Table from "../components/Table";
+import {
+	caseTableHeadings,
+	caseTableRows,
+	lawyerTableHeadings,
+	lawyerTableRows,
+} from "../helper/table";
 
 export default function Admin() {
 	const [caseData, setCaseData] = useState([]);
@@ -53,57 +59,20 @@ export default function Admin() {
 		localStorage.removeItem("token");
 	};
 
-	const caseTableHeadings = [
-		"ID",
-		"Name",
-		"Description",
-		"Contact By",
-		"Status",
-	].map((heading) => <th>{heading}</th>);
-
-	const caseTableRows = caseData.map((issue) => {
-		return (
-			<tr key={issue.id}>
-				<td>{issue.id}</td>
-				<td>
-					{issue.first_name} {issue.last_name}
-				</td>
-				<td> {issue.description}</td>
-				<td>{issue.contact_pref}</td>
-				<td>Conditional Rendering Based on State</td>
-			</tr>
-		);
-	});
-
-	const lawyerTableHeadings = ["ID", "Name", "Specialty", "Available"].map(
-		(heading) => <th>{heading}</th>
-	);
-
-	const lawyerTableRows = allLawyers.map((lawyer) => {
-		return (
-			<tr key={lawyer.id}>
-				<td>{lawyer.id}</td>
-				<td>
-					{lawyer.first_name} {lawyer.last_name}
-				</td>
-				<td>{lawyer.specialty}</td>
-				<td>{lawyer.available}</td>
-			</tr>
-		);
-	});
-
 	return (
 		<div>
 			<Table
 				caption="Case Details"
 				tableHeadings={caseTableHeadings}
 				tableRows={caseTableRows}
+				array={caseData}
 			/>
 
 			<Table
 				caption="Lawyer Details"
 				tableHeadings={lawyerTableHeadings}
 				tableRows={lawyerTableRows}
+				array={allLawyers}
 			/>
 
 			<button onClick={logout}>Log Out</button>

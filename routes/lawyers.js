@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../model/helper");
 const bcrypt = require("bcrypt");
+const validateToken = require("../auth/validateToken");
 
 // create lawyer account
 // "/api/lawyers"
@@ -29,4 +30,21 @@ router.post("/", async (req, res, next) => {
 	}
 });
 
+// Get account details
+router.get("/profile", validateToken, async (req, res) => {
+	const { first_name, last_name, role } = req.user;
+	console.log(first_name, last_name, role);
+
+	try {
+		const sqlJoin = `SELECT  users.id, users.first_name, users.last_name, users.email, users.phone, requesters.id, requesters.contact_pref, requests.* FROM requesters INNER JOIN users ON requesters.user_id=users.id INNER JOIN requests ON requesters.id=requests.requester_id;`;
+		const results = await db(sqlJoin);
+		if (results.data.length) {
+			res.status(200).send(results.data);
+		} else {
+			res.status(404).send({ error: "Resource not found" });
+		}
+	} catch (err) {
+		res.status(500).send({ Error: err });
+	}
+});
 module.exports = router;
