@@ -26,7 +26,7 @@ const lawyerTableHeadings = ["ID", "Name", "Specialty", "Available"].map(
 	(heading) => <th>{heading}</th>
 );
 
-const lawyerTableRows = (array) => {
+const lawyerTableRows = (array, state, stateSetter) => {
 	return array.map((lawyer) => {
 		return (
 			<tr key={lawyer.id}>

@@ -11,7 +11,11 @@ import {
 export default function Admin() {
 	const [caseData, setCaseData] = useState([]);
 	const [allLawyers, setAllLawyers] = useState([]);
-
+	const [assignment, setAssignment] = useState({
+		lawyer_id: "",
+		request_id: "",
+	});
+	const [allAssignments, setAllAssignments] = useState([]);
 	const getCaseData = async () => {
 		try {
 			const response = await fetch(
@@ -56,22 +60,86 @@ export default function Admin() {
 		console.log({ allLawyers });
 	}, []);
 
+	// onclick of these table rows, I get the requestid and the lawyerid to pass to the backend to make the assignments
+	const caseTableRows = caseData.map((request) => {
+		return (
+			<tr
+				key={request.id}
+				onClick={() => {
+					setAssignment({ ...assignment, request_id: request.id });
+				}}
+			>
+				<td>{request.id}</td>
+				<td>
+					{request.first_name} {request.last_name}
+				</td>
+				<td> {request.description}</td>
+				<td>{request.contact_pref}</td>
+				<td>Conditional Rendering Based on State</td>
+			</tr>
+		);
+	});
+
+	const lawyerTableRows = allLawyers.map((lawyer) => {
+		return (
+			<tr
+				key={lawyer.id}
+				onClick={() => {
+					setAssignment({ ...assignment, lawyer_id: lawyer.id });
+				}}
+			>
+				<td>{lawyer.id}</td>
+				<td>
+					{lawyer.first_name} {lawyer.last_name}
+				</td>
+				<td>{lawyer.specialty}</td>
+				<td>{lawyer.available}</td>
+			</tr>
+		);
+	});
+
+	console.log({ assignment });
+
+	const makeAssignment = async () => {
+		try {
+			const response = await fetch("http://localhost:5000/api/assignments", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(assignment),
+			});
+			if (response.ok) {
+				const jsonResponse = await response.json();
+
+				setAllAssignments(jsonResponse);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<div>
-			<Table
-				caption="Case Details"
-				tableHeadings={caseTableHeadings}
-				tableRows={caseTableRows}
-				array={caseData}
-			/>
+			<div className="flex flex-col">
+				<Table
+					caption="Case Details"
+					tableHeadings={caseTableHeadings}
+					tableRows={caseTableRows}
+				/>
 
-			<Table
-				caption="Lawyer Details"
-				tableHeadings={lawyerTableHeadings}
-				tableRows={lawyerTableRows}
-				array={allLawyers}
-			/>
+				<Table
+					caption="Lawyer Details"
+					tableHeadings={lawyerTableHeadings}
+					tableRows={lawyerTableRows}
+				/>
 
+				<div className="mx-auto">
+					<div>Case ID: {assignment.request_id} </div>
+					<div>Lawyer ID: {assignment.lawyer_id} </div>
+					<button onClick={makeAssignment}>Assign</button>
+				</div>
+			</div>
 			<LogOutBtn />
 		</div>
 	);

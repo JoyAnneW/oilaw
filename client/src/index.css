@@ -46,4 +46,8 @@
 	table tbody td {
 		@apply px-5 py-3 border-b border-orange-100;
 	}
+
+	table tbody tr {
+		@apply hover:bg-orange-50 cursor-pointer;
+	}
 }
