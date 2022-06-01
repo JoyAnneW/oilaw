@@ -20,6 +20,15 @@ router.post("/", async (req, res, next) => {
 			// results.data is an Array. this will return one object which i can access at [0]
 			const user = results.data[0];
 			console.log("from login.js:", { user });
+			//user: {
+			// 	id: 3,
+			// 	first_name: 'Joy',
+			// 	last_name: 'Williams',
+			// 	email: 'dummyemailforcode@gmail.com',
+			// 	phone: '9998887766',
+			// 	role: 'admin',
+			// 	password: '$2b$10$9rkN8M0mA7QLzhVjgUXvh.jaTFyfB33ZscQnACX1Syoq1DVDXGiwO'
+			// }
 
 			// checks whether plain text password and hashed password are the same. returns true or false
 			const passwordIsCorrect = await bcrypt.compare(password, user.password);

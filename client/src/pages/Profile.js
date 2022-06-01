@@ -16,9 +16,9 @@ export default function Profile() {
 			);
 			if (response.ok) {
 				const jsonResponse = await response.json();
+				console.log({ jsonResponse });
 				// respose is an array with one obj in it.
 				setProfileDetails(jsonResponse[0]);
-				console.log(profileDetails);
 			}
 		} catch (error) {
 			console.log(error);
@@ -27,6 +27,7 @@ export default function Profile() {
 
 	useEffect(() => {
 		getProfile();
+		console.log(profileDetails);
 	}, []);
 
 	const profileTableRows = (caseData) => {

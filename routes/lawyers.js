@@ -36,9 +36,12 @@ router.get("/profile", validateToken, async (req, res) => {
 	console.log(first_name, last_name, role);
 
 	try {
-		const sql = `SELECT * FROM users WHERE email='${email}';`;
-		const results = await db(sql);
+		const sqlJoin = `SELECT * FROM users JOIN lawyers ON users.id=lawyers.user_id JOIN lawyer_assignments ON lawyers.id=lawyer_assignments.lawyer_id WHERE email='${email}';`;
+
+		const results = await db(sqlJoin);
+
 		if (results.data.length) {
+			console.log("results.data", results.data);
 			res.status(200).send(results.data);
 		} else {
 			res.status(404).send({ error: "Resource not found" });
