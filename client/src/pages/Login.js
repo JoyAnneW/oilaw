@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function Login({ setToken, setRole }) {
 	const [credentials, setCredentials] = useState({
 		email: "",
 		password: "",
@@ -39,7 +39,8 @@ export default function Login() {
 				// the token is saved in local storage
 				localStorage.setItem("token", accessToken);
 				localStorage.setItem("role", role);
-
+				setToken(accessToken);
+				setRole(role);
 				// After successful login, navigate to admin page if role is admin
 				if (role === "admin") navigate("/private/admin");
 				// navigate to profile if role is profile

@@ -49,6 +49,7 @@ router.get(
 		}
 	}
 );
+
 // get all lawyers
 router.get(
 	"/lawyers",

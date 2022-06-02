@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
-import LogOutBtn from "../components/LogOutBtn";
+
 import Table from "../components/Table";
-import {
-	caseTableHeadings,
-	caseTableRows,
-	lawyerTableHeadings,
-	lawyerTableRows,
-} from "../helper/table";
+import { caseTableHeadings, lawyerTableHeadings } from "../helper/table";
 
 export default function Admin() {
 	const [caseData, setCaseData] = useState([]);
@@ -140,7 +135,6 @@ export default function Admin() {
 					<button onClick={makeAssignment}>Assign</button>
 				</div>
 			</div>
-			<LogOutBtn />
 		</div>
 	);
 }

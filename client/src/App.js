@@ -10,23 +10,45 @@ import ContactForm from "./components/ContactForm";
 import Profile from "./pages/Profile";
 
 function App() {
+	const [token, setToken] = useState(null);
+	const [role, setRole] = useState(null);
+
+	// const accessToken = localStorage.getItem("token");
+	// const userRole = localStorage.getItem("role");
+
+	// useEffect(() => {
+	// 	setToken(accessToken);
+	// 	setRole(userRole);
+	// }, [accessToken]);
+
+	console.log(!token);
 	return (
 		<div className="">
 			<BrowserRouter>
-				<NavBar />
+				<NavBar token={token} setToken={setToken} setRole={setRole} />
 				<Routes>
 					<Route path="/" element={<ContactForm />} />
-					<Route exact path="/login" element={<Login />} />
+					<Route
+						exact
+						path="/login"
+						element={<Login setToken={setToken} setRole={setRole} />}
+					/>
 					<Route exact path="/signup" element={<SignUp />} />
 
-					<Route path="/private/admin" element={<PrivateAdminRoute />}>
+					<Route
+						path="/private/admin"
+						element={<PrivateAdminRoute token={token} role={role} />}
+					>
 						<Route path="" element={<Admin />} />
 					</Route>
 
-					<Route path="/profile" element={<PrivateLawyersRoute />}>
+					<Route
+						path="/profile"
+						element={<PrivateLawyersRoute token={token} role={role} />}
+					>
 						<Route path="" element={<Profile />} />
 					</Route>
-				</Routes>
+				</Routes>{" "}
 			</BrowserRouter>
 		</div>
 	);

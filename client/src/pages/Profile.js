@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import LogOutBtn from "../components/LogOutBtn";
 import Table from "../components/Table";
 import { HiOutlinePhone } from "react-icons/hi";
 import { HiOutlineMail } from "react-icons/hi";
@@ -101,7 +100,6 @@ export default function Profile() {
 				tableHeadings={profileTableHeadings}
 				tableRows={profileTableRows}
 			/>
-			<LogOutBtn />
 		</div>
 	);
 }

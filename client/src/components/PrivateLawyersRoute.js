@@ -3,17 +3,15 @@ import { Outlet, Navigate } from "react-router-dom";
 
 // Outlet allows us to render children wrapped inside this route component
 
-// hook determines authentication state
-const useAuth = () => {
-	const token = localStorage.getItem("token");
-	const role = localStorage.getItem("role");
-	// is token in LS?
-	return token && role === "lawyer" ? true : false;
-};
+export default function PrivateLawyersRoute({ token, role }) {
+	const checkAuth = () => {
+		// is token in LS?
 
-export default function PrivateRoute() {
+		return token && role === "lawyer" ? true : false;
+	};
+
+	console.log("lawyers", { checkAuth });
 	// if user is authenticated, then render all children of this component, otherwise navigate to login page
-	const isAuth = useAuth();
-	console.log(isAuth);
-	return isAuth ? <Outlet /> : <Navigate to="/login" replace />;
+
+	return checkAuth ? <Outlet /> : <Navigate to="/login" replace />;
 }
