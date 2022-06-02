@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-
+import { HiOutlinePhone } from "react-icons/hi";
+import { HiOutlineMail } from "react-icons/hi";
 import Table from "../components/Table";
 import { caseTableHeadings, lawyerTableHeadings } from "../helper/table";
 
@@ -69,7 +70,19 @@ export default function Admin() {
 					{request.first_name} {request.last_name}
 				</td>
 				<td> {request.description}</td>
-				<td>{request.contact_pref}</td>
+				<td className="text-lg">
+					{request.contact_pref === "email" ? (
+						<a href={`mailto:${request.email}`}>
+							{" "}
+							<HiOutlineMail />
+						</a>
+					) : (
+						<a href={`tel:${request.phone}`}>
+							{" "}
+							<HiOutlinePhone />
+						</a>
+					)}
+				</td>
 				<td>Conditional Rendering Based on State</td>
 			</tr>
 		);
