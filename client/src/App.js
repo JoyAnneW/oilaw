@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import PrivateRoute from "./components/PrivateRoute";
+import PrivateAdminRoute from "./components/PrivateAdminRoute";
+import PrivateLawyersRoute from "./components/PrivateLawyersRoute";
 import NavBar from "./components/NavBar";
 import Admin from "./pages/Admin";
 import Login from "./pages/Login";
@@ -18,11 +19,11 @@ function App() {
 					<Route exact path="/login" element={<Login />} />
 					<Route exact path="/signup" element={<SignUp />} />
 
-					<Route path="/private/admin" element={<PrivateRoute />}>
+					<Route path="/private/admin" element={<PrivateAdminRoute />}>
 						<Route path="" element={<Admin />} />
 					</Route>
 
-					<Route path="/profile" element={<PrivateRoute />}>
+					<Route path="/profile" element={<PrivateLawyersRoute />}>
 						<Route path="" element={<Profile />} />
 					</Route>
 				</Routes>

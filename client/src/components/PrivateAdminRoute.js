@@ -6,8 +6,9 @@ import { Outlet, Navigate } from "react-router-dom";
 // hook determines authentication state
 const useAuth = () => {
 	const token = localStorage.getItem("token");
+	const role = localStorage.getItem("role");
 	// is token in LS?
-	return token ? true : false;
+	return token && role === "admin" ? true : false;
 };
 
 export default function PrivateRoute() {

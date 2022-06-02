@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import LogOutBtn from "../components/LogOutBtn";
 import Table from "../components/Table";
 export default function Profile() {
-	const [profileDetails, setProfileDetails] = useState({});
+	const [profileDetails, setProfileDetails] = useState([]);
 
 	const getProfile = async () => {
 		try {
@@ -18,7 +18,7 @@ export default function Profile() {
 				const jsonResponse = await response.json();
 				console.log({ jsonResponse });
 				// respose is an array with one obj in it.
-				setProfileDetails(jsonResponse[0]);
+				setProfileDetails(jsonResponse);
 			}
 		} catch (error) {
 			console.log(error);
@@ -27,33 +27,28 @@ export default function Profile() {
 
 	useEffect(() => {
 		getProfile();
-		console.log(profileDetails);
 	}, []);
+	console.log(profileDetails);
 
-	const profileTableRows = (caseData) => {
-		// return caseData.map((issue) => {
-		//   return (
-		//     <tr key={issue.id}>
-		//       <td>{issue.id}</td>
-		//       <td>
-		//         {issue.first_name} {issue.last_name}
-		//       </td>
-		//       <td> {issue.description}</td>
-		//       <td>{issue.contact_pref}</td>
-		//       <td>Conditional Rendering Based on State</td>
-		//     </tr>
-		//   );
-		// });
-	};
+	const profileTableHeadings = ["Case Id", "Description"].map((heading) => (
+		<th>{heading}</th>
+	));
+	const profileTableRows = profileDetails.map((profile) => {
+		return (
+			<tr key={profile.id}>
+				<td>{profile.id}</td>
+				<td> {profile.description}</td>
+			</tr>
+		);
+	});
 
 	return (
 		<div>
 			<h2>Welcome back {profileDetails.first_name}!</h2>
 			<Table
 				caption="Your Cases"
-				tableHeadings={[]}
+				tableHeadings={profileTableHeadings}
 				tableRows={profileTableRows}
-				array={[]}
 			/>
 			<LogOutBtn />
 		</div>

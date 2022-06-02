@@ -38,6 +38,7 @@ export default function Login() {
 				const { accessToken, role } = jsonResponse;
 				// the token is saved in local storage
 				localStorage.setItem("token", accessToken);
+				localStorage.setItem("role", role);
 
 				// After successful login, navigate to admin page if role is admin
 				if (role === "admin") navigate("/private/admin");

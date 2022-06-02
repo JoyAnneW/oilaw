@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 const logout = () => {
 	localStorage.removeItem("token");
+	localStorage.removeItem("role");
 };
 
 export default function NavBar() {

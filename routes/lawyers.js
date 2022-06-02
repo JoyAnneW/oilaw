@@ -36,7 +36,7 @@ router.get("/profile", validateToken, async (req, res) => {
 	console.log(first_name, last_name, role);
 
 	try {
-		const sqlJoin = `SELECT * FROM users JOIN lawyers ON users.id=lawyers.user_id JOIN lawyer_assignments ON lawyers.id=lawyer_assignments.lawyer_id WHERE email='${email}';`;
+		const sqlJoin = `SELECT * FROM lawyer_assignments INNER JOIN lawyers ON lawyers.id=lawyer_assignments.lawyer_id INNER JOIN users ON users.id=lawyers.user_id AND email='${email}' INNER JOIN requests ON requests.id=lawyer_assignments.request_id;`;
 
 		const results = await db(sqlJoin);
 

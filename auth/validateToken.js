@@ -19,6 +19,19 @@ const validateToken = (req, res, next) => {
 		req.user = decoded.user;
 		console.log(req.user, { decoded });
 
+		// decoded: {
+		// 	user: {
+		// 		id: 3,
+		// 		first_name: 'Joy',
+		// 		last_name: 'Williams',
+		// 		email: 'dummyemailforcode@gmail.com',
+		// 		phone: '9998887766',
+		// 		role: 'admin',
+		// 		password: '$2b$10$9rkN8M0mA7QLzhVjgUXvh.jaTFyfB33ZscQnACX1Syoq1DVDXGiwO'
+		// 	},
+		// 	iat: 1654167716
+		// }
+
 		next();
 	});
 };

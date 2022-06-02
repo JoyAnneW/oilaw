@@ -5,6 +5,7 @@ export default function LogOutBtn() {
 	const navigate = useNavigate();
 	const logout = () => {
 		localStorage.removeItem("token");
+		localStorage.removeItem("role");
 
 		navigate("/login");
 	};
