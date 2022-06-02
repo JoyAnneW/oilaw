@@ -83,7 +83,14 @@ export default function Admin() {
 						</a>
 					)}
 				</td>
-				<td>Conditional Rendering Based on State</td>
+				<td>
+					{request.accepted === 0 ? (
+						<span className="bg-red-100 rounded px-2">not accepted</span>
+					) : (
+						""
+					)}
+				</td>
+				<td>{request.created_at}</td>
 			</tr>
 		);
 	});

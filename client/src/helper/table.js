@@ -4,6 +4,7 @@ const caseTableHeadings = [
 	"Description",
 	"Contact By",
 	"Status",
+	"Received",
 ].map((heading) => <th>{heading}</th>);
 
 const caseTableRows = (caseData) => {
