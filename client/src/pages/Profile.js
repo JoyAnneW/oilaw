@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import LogOutBtn from "../components/LogOutBtn";
 import Table from "../components/Table";
+import { HiOutlinePhone } from "react-icons/hi";
+import { HiOutlineMail } from "react-icons/hi";
+
 export default function Profile() {
 	// only name and lawyer id
 	const [personalDetails, setPersonalDetails] = useState({});
@@ -50,8 +53,11 @@ export default function Profile() {
 	};
 	useEffect(() => {
 		getPersonalDetails();
-		getCaseDetails();
 	}, []);
+
+	useEffect(() => {
+		getCaseDetails();
+	}, [personalDetails]);
 
 	console.log({ personalDetails });
 	console.log({ caseDetails });
@@ -70,14 +76,26 @@ export default function Profile() {
 				<td>
 					{request.first_name} {request.last_name}
 				</td>
-				<td> {request.contact_pref}</td>
+				<td className="text-lg">
+					{request.contact_pref === "email" ? (
+						<a href={`mailto:${request.email}`}>
+							{" "}
+							<HiOutlineMail />
+						</a>
+					) : (
+						<a href={`tel:${request.phone}`}>
+							{" "}
+							<HiOutlinePhone />
+						</a>
+					)}
+				</td>
 			</tr>
 		);
 	});
 
 	return (
 		<div>
-			<h2>Welcome back {personalDetails.lawyer_id}!</h2>
+			<h2>Welcome back {personalDetails.first_name}!</h2>
 			<Table
 				caption="Your Cases"
 				tableHeadings={profileTableHeadings}
