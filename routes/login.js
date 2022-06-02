@@ -41,7 +41,12 @@ router.post("/", async (req, res, next) => {
 			// generate access token. need to await here as well or an empty object will be returned since this code is sync, but the token from the async jwt.sign hasn't arrived yet
 			const accessToken = await generateAccessToken(user);
 			console.log({ accessToken });
-			res.send({ accessToken, message: "Login Successful!", role: user.role });
+			res.send({
+				accessToken,
+				message: "Login Successful!",
+				role: user.role,
+				user_id: user.id,
+			});
 		} else {
 			res.status(404).send({ error: "User does not exist" });
 		}

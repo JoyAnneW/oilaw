@@ -35,7 +35,7 @@ export default function Login() {
 			if (response.ok) {
 				const jsonResponse = await response.json();
 				console.log({ jsonResponse });
-				const { accessToken, role } = jsonResponse;
+				const { accessToken, role, user_id } = jsonResponse;
 				// the token is saved in local storage
 				localStorage.setItem("token", accessToken);
 				localStorage.setItem("role", role);
