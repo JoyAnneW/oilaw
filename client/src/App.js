@@ -13,14 +13,6 @@ function App() {
 	const [token, setToken] = useState(null);
 	const [role, setRole] = useState(null);
 
-	// const accessToken = localStorage.getItem("token");
-	// const userRole = localStorage.getItem("role");
-
-	// useEffect(() => {
-	// 	setToken(accessToken);
-	// 	setRole(userRole);
-	// }, [accessToken]);
-
 	console.log(!token);
 	return (
 		<div className="">

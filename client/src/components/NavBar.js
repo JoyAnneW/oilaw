@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { useEffect } from "react";
+
 import { Link, useNavigate } from "react-router-dom";
-import LogOutBtn from "./LogOutBtn";
 
 export default function NavBar({ token, setToken, setRole }) {
 	const navigate = useNavigate();
