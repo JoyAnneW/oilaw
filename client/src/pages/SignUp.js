@@ -38,6 +38,14 @@ export default function SignUp() {
 				console.log(jsonResponse);
 				// after successful signup, navigate to login page
 				navigate("/login");
+			} else {
+				// if response is not ok, then I need to redefine the response object and await it.
+				// error comes in as an object with a prop called error
+				const { error } = await response.json();
+				console.log(error.errno);
+				if (error.errno === 1062) {
+					toast.error("A user with this email address already exists.");
+				}
 			}
 		} catch (error) {
 			console.log(error);

@@ -23,10 +23,12 @@ router.post("/", async (req, res, next) => {
 		if (results.data.length) {
 			res.status(200).send(results.data);
 		} else {
-			res.status(404).send({ error: "Resource not found" });
+			res.status(404).send({ message: "Resource not found" });
 		}
 	} catch (error) {
-		res.status(500).send({ Error: error });
+		console.log(error);
+		// sending just the error object to simplify route to properties in the frontend
+		res.status(500).send({ error });
 	}
 });
 
