@@ -12,7 +12,8 @@ export default function SignUp() {
 		password: "",
 		specialty: "",
 	});
-
+	// managing checked state of radio buttons
+	const [checkedValue, setCheckedValue] = useState("");
 	const navigate = useNavigate();
 
 	const handleInputChange = (event) => {
@@ -54,6 +55,7 @@ export default function SignUp() {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		createLawyerAccount();
+		// reset form
 		setLawyerDetails({
 			first_name: "",
 			last_name: "",
@@ -62,6 +64,8 @@ export default function SignUp() {
 			password: "",
 			specialty: "",
 		});
+		// reset radio buttons
+		setCheckedValue("");
 	};
 
 	return (
@@ -137,8 +141,13 @@ export default function SignUp() {
 						name="specialty"
 						id="immigration"
 						value="immigration"
-						onChange={(event) => handleInputChange(event)}
+						onChange={(event) => {
+							handleInputChange(event);
+							setCheckedValue(event.target.value);
+						}}
 						required
+						// this will evaluate to true or false as state changes, thus turning on or off the checked attribute
+						checked={checkedValue === "immigration"}
 						className="ml-auto"
 					/>
 				</div>
@@ -149,8 +158,12 @@ export default function SignUp() {
 						name="specialty"
 						id="criminal"
 						value="criminal"
-						onChange={(event) => handleInputChange(event)}
+						onChange={(event) => {
+							handleInputChange(event);
+							setCheckedValue(event.target.value);
+						}}
 						required
+						checked={checkedValue === "criminal"}
 						className="ml-auto"
 					/>
 				</div>
@@ -161,8 +174,12 @@ export default function SignUp() {
 						name="specialty"
 						id="family"
 						value="family"
-						onChange={(event) => handleInputChange(event)}
+						onChange={(event) => {
+							handleInputChange(event);
+							setCheckedValue(event.target.value);
+						}}
 						required
+						checked={checkedValue === "family"}
 						className="ml-auto"
 					/>
 				</div>

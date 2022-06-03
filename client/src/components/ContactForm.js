@@ -11,6 +11,8 @@ export default function ContactForm() {
 		description: "",
 		contact_pref: "",
 	});
+	// managing checked state of radio buttons
+	const [checkedValue, setCheckedValue] = useState("");
 
 	const handleInputChange = (event) => {
 		const name = event.target.name;
@@ -48,6 +50,7 @@ export default function ContactForm() {
 	};
 
 	const resetContactForm = () => {
+		// reset form
 		setRequestDetails({
 			first_name: "",
 			last_name: "",
@@ -56,6 +59,9 @@ export default function ContactForm() {
 			description: "",
 			contact_pref: "",
 		});
+
+		// reset radio buttons
+		setCheckedValue("");
 	};
 
 	return (
@@ -132,7 +138,11 @@ export default function ContactForm() {
 							name="contact_pref"
 							id="phonePref"
 							value="phone"
-							onChange={(event) => handleInputChange(event)}
+							onChange={(event) => {
+								handleInputChange(event);
+								setCheckedValue(event.target.value);
+							}}
+							checked={checkedValue === "phone"}
 							required
 							className="ml-auto"
 						/>
@@ -144,7 +154,11 @@ export default function ContactForm() {
 							name="contact_pref"
 							id="emailPref"
 							value="email"
-							onChange={(event) => handleInputChange(event)}
+							onChange={(event) => {
+								handleInputChange(event);
+								setCheckedValue(event.target.value);
+							}}
+							checked={checkedValue === "email"}
 							required
 							className="ml-auto"
 						/>
