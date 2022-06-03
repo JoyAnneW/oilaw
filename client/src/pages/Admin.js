@@ -12,6 +12,8 @@ export default function Admin() {
 		request_id: "",
 	});
 	const [allAssignments, setAllAssignments] = useState([]);
+	const [selectedCase, setSelectedCase] = useState({});
+
 	const getCaseData = async () => {
 		try {
 			const response = await fetch(
@@ -56,13 +58,18 @@ export default function Admin() {
 		console.log({ allLawyers });
 	}, []);
 
+	const getSelectedCase = (index) => {
+		const selected = caseData[index];
+		setSelectedCase(selected);
+	};
 	// onclick of these table rows, I get the requestid and the lawyerid to pass to the backend to make the assignments
-	const caseTableRows = caseData.map((request) => {
+	const caseTableRows = caseData.map((request, index) => {
 		return (
 			<tr
 				key={request.id}
-				onClick={() => {
+				onClick={(event) => {
 					setAssignment({ ...assignment, request_id: request.id });
+					getSelectedCase(index);
 				}}
 			>
 				<td>{request.id}</td>
@@ -85,7 +92,7 @@ export default function Admin() {
 				</td>
 				<td>
 					{request.accepted === 0 ? (
-						<span className="bg-red-100 rounded px-2">not accepted</span>
+						<span className="bg-red-100 rounded px-2 ">not accepted</span>
 					) : (
 						""
 					)}
@@ -136,24 +143,32 @@ export default function Admin() {
 
 	return (
 		<div>
-			<div className="flex flex-col">
-				<Table
-					caption="Case Details"
-					tableHeadings={caseTableHeadings}
-					tableRows={caseTableRows}
-				/>
-
-				<Table
-					caption="Lawyer Details"
-					tableHeadings={lawyerTableHeadings}
-					tableRows={lawyerTableRows}
-				/>
-
-				<div className="mx-auto">
-					<div>Case ID: {assignment.request_id} </div>
-					<div>Lawyer ID: {assignment.lawyer_id} </div>
-					<button onClick={makeAssignment}>Assign</button>
+			<div>
+				<div className="flex">
+					<div className="w-1/2">
+						<Table
+							caption="Case Details"
+							tableHeadings={caseTableHeadings}
+							tableRows={caseTableRows}
+						/>
+						<Table
+							caption="Lawyer Details"
+							tableHeadings={lawyerTableHeadings}
+							tableRows={lawyerTableRows}
+						/>
+					</div>
+					<div className="w-1/2">
+						Case ID:{selectedCase.id} Description:{selectedCase.description}
+						<button>Accept</button>
+						<button>Assign</button>
+						<button>Resolved</button>
+					</div>
 				</div>
+			</div>
+			<div className="mx-auto">
+				<div>Case ID: {assignment.request_id} </div>
+				<div>Lawyer ID: {assignment.lawyer_id} </div>
+				<button onClick={makeAssignment}>Assign</button>
 			</div>
 		</div>
 	);
