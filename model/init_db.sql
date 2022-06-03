@@ -4,7 +4,7 @@ CREATE TABLE `users` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`first_name` varchar(40) NOT NULL,
 	`last_name` varchar(40) NOT NULL,
-	`email` varchar(40) NOT NULL,
+	`email` varchar(40) NOT NULL UNIQUE,
 	`phone` varchar(15) NOT NULL,
 	`role` varchar(11) NOT NULL,
 	`password` varchar(255) NOT NULL,

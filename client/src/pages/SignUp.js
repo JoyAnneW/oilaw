@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function SignUp() {
 	const [lawyerDetails, setLawyerDetails] = useState({
@@ -29,8 +31,12 @@ export default function SignUp() {
 				body: JSON.stringify(lawyerDetails),
 			});
 			if (response.ok) {
+				toast.success(
+					"Your account has been successfully created! Please login."
+				);
 				const jsonResponse = await response.json();
-				setLawyerDetails(jsonResponse);
+				console.log(jsonResponse);
+				// after successful signup, navigate to login page
 				navigate("/login");
 			}
 		} catch (error) {
@@ -40,6 +46,14 @@ export default function SignUp() {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		createLawyerAccount();
+		setLawyerDetails({
+			first_name: "",
+			last_name: "",
+			phone: "",
+			email: "",
+			password: "",
+			specialty: "",
+		});
 	};
 
 	return (

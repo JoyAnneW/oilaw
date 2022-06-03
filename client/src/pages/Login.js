@@ -20,6 +20,10 @@ export default function Login({ setToken, setRole }) {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		authenticateUser();
+		setCredentials({
+			email: "",
+			password: "",
+		});
 	};
 
 	//Handle Login based on role
