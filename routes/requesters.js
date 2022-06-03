@@ -20,7 +20,7 @@ router.post("/", async (req, res) => {
 		if (results.data.length) {
 			res.status(200).send(results.data);
 		} else {
-			res.status(404).send({ error: "Resource not found" });
+			res.status(404).send({ message: "Resource not found" });
 		}
 	} catch (error) {
 		res.status(500).send({ Error: error });

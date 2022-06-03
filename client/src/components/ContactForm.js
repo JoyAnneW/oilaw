@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ContactForm() {
 	const [requestDetails, setRequestDetails] = useState({
@@ -28,8 +30,15 @@ export default function ContactForm() {
 			});
 			if (response.ok) {
 				const jsonResponse = await response.json();
-
 				console.log({ jsonResponse });
+				toast.success(
+					"Thank you for your submission. We will be in touch with you soon!"
+				);
+			} else {
+				// if response is not ok, then I need to redefine the response object and await it. It will be the object with the error message.
+				const error = await response.json();
+				console.log(error);
+				toast.error(error.message);
 			}
 		} catch (error) {
 			console.log(error);

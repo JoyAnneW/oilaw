@@ -49,6 +49,7 @@ app.use("/api/assignments", assignmentsRouter);
 // 	res.send("error");
 // });
 
+// shows up if route incorrectly typed
 app.use((req, res, next) => {
 	const error = new Error("Not found");
 	error.status = 404;
