@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login({ setToken, setRole }) {
 	const [credentials, setCredentials] = useState({
@@ -31,6 +33,7 @@ export default function Login({ setToken, setRole }) {
 				},
 				body: JSON.stringify(credentials),
 			});
+			console.log(response);
 			// need to convert response to readable object
 			if (response.ok) {
 				const jsonResponse = await response.json();
@@ -45,8 +48,16 @@ export default function Login({ setToken, setRole }) {
 				if (role === "admin") navigate("/private/admin");
 				// navigate to profile if role is profile
 				if (role === "lawyer") navigate("/profile");
+			} else {
+				// if response is not ok, then I need to redefine the response object and await it. It will be the object with the error message.
+				const error = await response.json();
+				console.log(error);
+				// use message sent from server in toast.
+				toast.error(error.message);
 			}
 		} catch (error) {
+			// this will either be "incorrect credentials" or "user doesn't exist" depending on where in the backend login failed.
+			toast.error(error.message);
 			console.log({ error });
 		}
 	};

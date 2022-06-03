@@ -8,6 +8,8 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import ContactForm from "./components/ContactForm";
 import Profile from "./pages/Profile";
+import { ToastContainer, toast, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
 	const [token, setToken] = useState(null);
@@ -16,6 +18,11 @@ function App() {
 	console.log(!token);
 	return (
 		<div className="">
+			<ToastContainer
+				position="top-center"
+				transition={Slide}
+				autoClose={1500}
+			/>
 			<BrowserRouter>
 				<NavBar token={token} setToken={setToken} setRole={setRole} />
 				<Routes>

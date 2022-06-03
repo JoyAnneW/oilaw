@@ -13,9 +13,9 @@ router.post("/", async (req, res, next) => {
 	console.log(req.body);
 	try {
 		// find the user with the email from req.body and the admin/lawyer role
-		const sqlSearch = `SELECT * FROM users WHERE email='${email}' AND role='admin' OR role='lawyer';`;
+		const sqlSearch = `SELECT * FROM users WHERE email='${email}';`;
 		let results = await db(sqlSearch);
-
+		console.log(results.data.length);
 		if (results.data.length) {
 			// results.data is an Array. this will return one object which i can access at [0]
 			const user = results.data[0];
@@ -34,9 +34,10 @@ router.post("/", async (req, res, next) => {
 			const passwordIsCorrect = await bcrypt.compare(password, user.password);
 
 			if (!passwordIsCorrect) {
-				res
-					.status(401)
-					.send({ accessToken: null, message: "Incorrect password." });
+				res.status(401).send({
+					accessToken: null,
+					message: "Incorrect password. Please try again.",
+				});
 			}
 			// generate access token. need to await here as well or an empty object will be returned since this code is sync, but the token from the async jwt.sign hasn't arrived yet
 			const accessToken = await generateAccessToken(user);
@@ -48,7 +49,9 @@ router.post("/", async (req, res, next) => {
 				user_id: user.id,
 			});
 		} else {
-			res.status(404).send({ error: "User does not exist" });
+			console.log(results);
+			// in the front end I'm using error.message to access the message returned in case of incorrect credentials. I changed the key of the return obj here to be able to still use error.message in the toast.
+			res.status(404).send({ message: "User does not exist." });
 		}
 		// console.log({ user });
 	} catch (error) {

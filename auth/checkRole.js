@@ -6,7 +6,9 @@ const checkRole = (permissions) => {
 		if (permissions.includes(role)) {
 			next();
 		} else {
-			return res.status(403).send("Unauthorized");
+			return res
+				.status(403)
+				.send("You are not authorized to access this resource.");
 		}
 	};
 };
