@@ -32,7 +32,7 @@
 	}
 
 	button {
-		@apply block py-2 px-4 bg-orange-500 hover:bg-orange-600 text-orange-50  border-b-4 border-orange-700;
+		@apply block py-1 px-3 bg-orange-500 hover:bg-orange-600 text-orange-50  border-b-4 border-orange-700;
 	}
 
 	table {

@@ -82,10 +82,10 @@ router.put("/:id/accepted", async (req, res, next) => {
 
 	try {
 		// find the specific request
-		let results = await db(`SELECT * FROM requests WHERE request_id=${id}`);
+		let results = await db(`SELECT * FROM requests WHERE id=${id}`);
 		// if it is found,  use the sql instructions for updating this item
 		if (results.data.length) {
-			const sql = `UPDATE requests SET accepted=${accepted} WHERE project_id=${id};`;
+			const sql = `UPDATE requests SET accepted=${accepted} WHERE id=${id};`;
 			// this replaces the specified item
 			await db(sql);
 
