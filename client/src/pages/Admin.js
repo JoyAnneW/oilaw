@@ -104,6 +104,34 @@ export default function Admin() {
 		}
 	};
 
+	const updateAssignedProperty = async () => {
+		try {
+			const response = await fetch(
+				`http://localhost:5000/api/admin/${selectedCase.id}/assigned`,
+				{
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ assigned: "true" }),
+				}
+			);
+			const jsonResponse = await response.json();
+			setCaseData(jsonResponse);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const getStatus = (request) => {
+		if (request.accepted === 0) {
+			return <span className="bg-red-100 rounded px-2 ">not accepted</span>;
+		} else if (request.accepted === 1 && request.assigned === 0) {
+			return <span className="bg-yellow-100 rounded px-2 ">pending</span>;
+		} else if (request.assigned === 1) {
+			return <span className="bg-orange-100 rounded px-2 ">assigned</span>;
+		}
+	};
 	// onclick of these table rows, I get the requestid and the lawyerid to pass to the backend to make the assignments
 	const caseTableRows = caseData.map((request, index) => {
 		return (
@@ -116,7 +144,7 @@ export default function Admin() {
 					setAssignment({ ...assignment, request_id: request.id });
 				}}
 			>
-				<td>{request.id}</td>
+				<td className="sticky left-0 bg-white z-0">{request.id}</td>
 				<td>
 					{request.first_name} {request.last_name}
 				</td>
@@ -134,13 +162,7 @@ export default function Admin() {
 						</a>
 					)}
 				</td>
-				<td>
-					{request.accepted === 0 ? (
-						<span className="bg-red-100 rounded px-2 ">not accepted</span>
-					) : (
-						<span className="bg-yellow-100 rounded px-2 ">pending</span>
-					)}
-				</td>
+				<td>{getStatus(request)}</td>
 				<td>{request.created_at}</td>
 			</tr>
 		);
@@ -165,45 +187,56 @@ export default function Admin() {
 	});
 
 	return (
-		<div>
-			<div>
-				<div className="flex">
-					<div className="w-1/2">
-						<Table
-							caption="Case Details"
-							tableHeadings={caseTableHeadings}
-							tableRows={caseTableRows}
-						/>
-						<Table
-							caption="Lawyer Details"
-							tableHeadings={lawyerTableHeadings}
-							tableRows={lawyerTableRows}
-						/>
+		<div className="flex p-6">
+			<div className="w-1/2 overflow-x-auto">
+				<Table
+					caption="Case Details"
+					tableHeadings={caseTableHeadings}
+					tableRows={caseTableRows}
+				/>
+				<Table
+					caption="Lawyer Details"
+					tableHeadings={lawyerTableHeadings}
+					tableRows={lawyerTableRows}
+				/>
+			</div>
+			<div className="w-1/2 p-6 ">
+				<div className="border border-orange-50 shadow w-min p-3 ">
+					<div className="flex flex-col gap-2">
+						<span className="font-bold">
+							Case ID:{" "}
+							{/* can also get this from selectCase.id but I'd like to keep it consistent. I'm sending assignment to the backend */}
+							<span className="font-normal">{assignment.request_id}</span>{" "}
+						</span>
+						<span className="font-bold">
+							Description:{" "}
+							<span className="font-normal">{selectedCase.description}</span>
+						</span>
 					</div>
-					<div className="w-1/2 p-6 ">
-						<div className="border border-orange-50 shadow w-min p-3 ">
-							<div className="flex flex-col gap-2">
-								<span className="font-bold">
-									Case ID:{" "}
-									{/* can also get this from selectCase.id but I'd like to keep it consistent. I'm sending assignment to the backend */}
-									<span className="font-normal">{assignment.request_id}</span>{" "}
-								</span>
-								<span className="font-bold">
-									Description:{" "}
-									<span className="font-normal">
-										{selectedCase.description}
-									</span>
-								</span>
-							</div>
-							<div className="">
-								<div>Lawyer ID: {assignment.lawyer_id} </div>
-							</div>
-							<div className="flex gap-2 mt-2">
-								<button onClick={handleAccept}>Accept</button>
-								<button onClick={makeAssignment}>Assign</button>
-								<button>Resolved</button>
-							</div>
-						</div>
+					<div className="">
+						<div>Lawyer ID: {assignment.lawyer_id} </div>
+					</div>
+					<div className="flex gap-2 mt-2">
+						<button
+							onClick={handleAccept}
+							disabled={selectedCase.accepted === 1}
+						>
+							Accept
+						</button>
+						<button
+							onClick={() => {
+								makeAssignment();
+								updateAssignedProperty();
+								setAssignment({
+									lawyer_id: "",
+									request_id: "",
+								});
+							}}
+							disabled={selectedCase.accepted === 0}
+						>
+							Assign
+						</button>
+						<button disabled={selectedCase.accepted === 0}>Resolved</button>
 					</div>
 				</div>
 			</div>
