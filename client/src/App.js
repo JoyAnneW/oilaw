@@ -15,7 +15,7 @@ function App() {
 	const [token, setToken] = useState(null);
 	const [role, setRole] = useState(null);
 
-	console.log(!token);
+	console.log({ token });
 	return (
 		<div className="">
 			<ToastContainer

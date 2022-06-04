@@ -60,8 +60,6 @@ router.get(
 		console.log(first_name, last_name, email, phone, role);
 
 		try {
-			//* need to add assignments here too. Different syntax to achieve sql join
-
 			const results = await db(
 				"SELECT users.first_name, users.last_name, users.email, users.phone, lawyers.* FROM lawyers INNER JOIN users ON lawyers.user_id=users.id;"
 			);
@@ -105,7 +103,7 @@ router.put("/:id/accepted", async (req, res, next) => {
 	}
 });
 
-// update accepted
+// update assigned
 router.put("/:id/assigned", async (req, res, next) => {
 	const { id } = req.params;
 	const { assigned } = req.body;
@@ -116,6 +114,36 @@ router.put("/:id/assigned", async (req, res, next) => {
 		// if it is found,  use the sql instructions for updating this item
 		if (results.data.length) {
 			const sql = `UPDATE requests SET assigned=${assigned} WHERE id=${id};`;
+			// this replaces the specified item
+			await db(sql);
+
+			const sqlJoin = `SELECT  users.id AS users_id, users.first_name, users.last_name, users.email, users.phone, requesters.id, requesters.contact_pref, requests.*, requests.id AS requests_id FROM requesters INNER JOIN users ON requesters.user_id=users.id INNER JOIN requests ON requesters.id=requests.requester_id;`;
+			// make another call to db to get the object with all case details. Same obj from get req
+			results = await db(sqlJoin);
+			if (results.data.length) {
+				// console.log(results.data);
+				res.status(200).send(results.data);
+			} else {
+				res.status(404).send({ error: "Resource not found" });
+			}
+		}
+	} catch (err) {
+		console.log(err);
+		res.status(500).send({ Error: err });
+	}
+});
+
+// update completed
+router.put("/:id/completed", async (req, res, next) => {
+	const { id } = req.params;
+	const { completed } = req.body;
+
+	try {
+		// find the specific request
+		let results = await db(`SELECT * FROM requests WHERE id=${id}`);
+		// if it is found,  use the sql instructions for updating this item
+		if (results.data.length) {
+			const sql = `UPDATE requests SET completed=${completed} WHERE id=${id};`;
 			// this replaces the specified item
 			await db(sql);
 

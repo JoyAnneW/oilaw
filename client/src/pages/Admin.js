@@ -51,12 +51,32 @@ export default function Admin() {
 		}
 	};
 
+	const getAllAssignments = async () => {
+		try {
+			const response = await fetch("http://localhost:5000/api/assignments/", {
+				headers: {
+					authorization: `Bearer ${localStorage.getItem("token")}`,
+				},
+			});
+			if (response.ok) {
+				const jsonResponse = await response.json();
+
+				setAllAssignments(jsonResponse);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	useEffect(() => {
 		getCaseData();
 		getLawyers();
-		console.log({ caseData });
-		console.log({ allLawyers });
+		getAllAssignments();
 	}, []);
+
+	console.log({ caseData });
+	console.log({ allLawyers });
+	console.log({ allAssignments });
 
 	// gets the object from the table that's clicked on
 	const getSelectedCase = (index) => {
@@ -123,6 +143,13 @@ export default function Admin() {
 		}
 	};
 
+	const getAssignedLawyer = (request) => {
+		const assignedLawyer = allAssignments.find(
+			(lawyer) => lawyer.request_id === request.id
+		);
+		return assignedLawyer;
+	};
+
 	const getStatus = (request) => {
 		if (request.accepted === 0) {
 			return <span className="bg-red-100 rounded px-2 ">not accepted</span>;
@@ -144,7 +171,7 @@ export default function Admin() {
 					setAssignment({ ...assignment, request_id: request.id });
 				}}
 			>
-				<td className="sticky left-0 bg-white z-0">{request.id}</td>
+				<td className="sticky left-0 bg-white">{request.id}</td>
 				<td>
 					{request.first_name} {request.last_name}
 				</td>
@@ -176,12 +203,20 @@ export default function Admin() {
 					setAssignment({ ...assignment, lawyer_id: lawyer.id });
 				}}
 			>
-				<td>{lawyer.id}</td>
+				<td className="sticky left-0 bg-white">{lawyer.id}</td>
 				<td>
 					{lawyer.first_name} {lawyer.last_name}
 				</td>
 				<td>{lawyer.specialty}</td>
 				<td>{lawyer.available}</td>
+				<td>
+					<div className="flex gap-2 items-center">
+						<HiOutlinePhone /> {lawyer.phone}
+					</div>
+					<div className="flex gap-2 items-center">
+						<HiOutlineMail /> {lawyer.email}
+					</div>
+				</td>
 			</tr>
 		);
 	});

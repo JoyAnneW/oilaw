@@ -11,6 +11,7 @@ export default function NavBar({ token, setToken, setRole }) {
 		setRole(null);
 		navigate("/login");
 	};
+	console.log({ token });
 	return (
 		<nav className="flex justify-between bg-orange-50 p-6">
 			<Link to="/">

@@ -48,6 +48,7 @@ export default function Login({ setToken, setRole }) {
 				localStorage.setItem("role", role);
 				setToken(accessToken);
 				setRole(role);
+				console.log({ accessToken });
 				// After successful login, navigate to admin page if role is admin
 				if (role === "admin") navigate("/private/admin");
 				// navigate to profile if role is profile
