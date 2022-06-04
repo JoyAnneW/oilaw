@@ -7,7 +7,7 @@ const db = require("../model/helper");
 router.post("/", async (req, res) => {
 	const { first_name, last_name, email, phone, description, contact_pref } =
 		req.body;
-
+	console.log(contact_pref);
 	// requesters table has fks from users and requests. insert into those first, then get the id from those tables using max(id)
 	// description, first and last name are wrapped in double quotes because apostrophes in submission throw an error.
 	const sqlInsert = `INSERT INTO users (first_name, last_name, email, phone, role, password) VALUES ("${first_name}", "${last_name}", '${email}', '${phone}', 'requester', 'N/A'); INSERT INTO requesters (user_id, contact_pref) VALUES ((SELECT max(id) FROM users), '${contact_pref}'); INSERT INTO requests (requester_id, description, created_at) VALUES ((SELECT max(id) FROM requesters), "${description}", now());`;

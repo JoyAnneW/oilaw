@@ -18,6 +18,8 @@ export default function Admin() {
 	const [allAssignments, setAllAssignments] = useState([]);
 	// keeps track of what object from the table is clicked on
 	const [selectedCase, setSelectedCase] = useState({});
+	// currently this only gives me access to lawyer ids
+	const [assignedLawyers, setAssignedLawyers] = useState([]);
 
 	const getCaseData = async () => {
 		try {
@@ -75,6 +77,9 @@ export default function Admin() {
 	useEffect(() => {
 		getCaseData();
 		getLawyers();
+	}, []);
+
+	useEffect(() => {
 		getAllAssignments();
 	}, []);
 
@@ -88,26 +93,20 @@ export default function Admin() {
 		setSelectedCase(selected);
 	};
 
-	const makeAssignment = async () => {
-		try {
-			const response = await fetch("http://localhost:5000/api/assignments", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(assignment),
-			});
-			if (response.ok) {
-				const jsonResponse = await response.json();
-
-				setAllAssignments(jsonResponse);
-			}
-		} catch (error) {
-			console.log(error);
-		}
+	const getAssignedLawyers = (request) => {
+		const assigned = allAssignments.filter((assignment) => {
+			// return all the objects that have the same request id
+			return assignment.request_id === request.id;
+		});
+		console.log({ assigned });
+		setAssignedLawyers(assigned);
 	};
 
-	const handleAccept = async () => {
+	const assignedLawyersSpan = assignedLawyers.map((lawyer, index) => {
+		return <span key={index}> Lawyer ID: {lawyer.lawyer_id} || </span>;
+	});
+
+	const updateAcceptedProperty = async () => {
 		try {
 			const response = await fetch(
 				`http://localhost:5000/api/admin/${selectedCase.id}/accepted`,
@@ -126,10 +125,49 @@ export default function Admin() {
 		}
 	};
 
+	const makeAssignment = async () => {
+		try {
+			const response = await fetch("http://localhost:5000/api/assignments", {
+				method: "POST",
+				headers: {
+					authorization: `Bearer ${localStorage.getItem("token")}`,
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(assignment),
+			});
+			if (response.ok) {
+				const jsonResponse = await response.json();
+
+				setAllAssignments(jsonResponse);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	const updateAssignedProperty = async () => {
 		try {
 			const response = await fetch(
 				`http://localhost:5000/api/admin/${selectedCase.id}/assigned`,
+				{
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ assigned: "true" }),
+				}
+			);
+			const jsonResponse = await response.json();
+			setCaseData(jsonResponse);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const updateCompletedProperty = async () => {
+		try {
+			const response = await fetch(
+				`http://localhost:5000/api/admin/${selectedCase.id}/completed`,
 				{
 					method: "PUT",
 					headers: {
@@ -167,6 +205,7 @@ export default function Admin() {
 					getSelectedCase(index);
 					// start building the assignment object to send to the server
 					setAssignment({ ...assignment, request_id: request.id });
+					getAssignedLawyers(request);
 				}}
 			>
 				<td className="sticky left-0 bg-white">{request.id}</td>
@@ -175,12 +214,14 @@ export default function Admin() {
 				</td>
 				<td> {request.description}</td>
 				<td className="text-lg">
-					{request.contact_pref === "email" ? (
+					{request.contact_pref === "email" && (
 						<a href={`mailto:${request.email}`}>
 							{" "}
 							<HiOutlineMail />
 						</a>
-					) : (
+					)}
+
+					{request.contact_pref === "phone" && (
 						<a href={`tel:${request.phone}`}>
 							{" "}
 							<HiOutlinePhone />
@@ -221,10 +262,11 @@ export default function Admin() {
 
 	const allAssignmentRows = allAssignments.map((assignmentObj, index) => {
 		return (
-			<tr key={assignmentObj.id}>
+			<tr key={index}>
 				<td>{assignmentObj.lawyer_id}</td>
-				<td>{assignmentObj.lawyer_id}</td>
+				<td>{"Name not in this table"}</td>
 				<td>{assignmentObj.request_id}</td>
+				<td>{"Name not in this table"}</td>
 			</tr>
 		);
 	});
@@ -248,7 +290,8 @@ export default function Admin() {
 						captionStyles="text-base font-bold absolute top-28  z-30"
 					/>
 				</div>
-				<div className="border border-orange-50 shadow w-min p-3 ">
+
+				<div className="border border-orange-50 shadow w-min p-3 text-sm">
 					<div className="flex flex-col gap-2">
 						<span className="font-bold">
 							Case ID:{" "}
@@ -261,17 +304,20 @@ export default function Admin() {
 						</span>
 					</div>
 					<div className="">
+						<div>Lawyer ID: {assignment.lawyer_id} </div>
 						{selectedCase.assigned ? (
 							<div>
-								<span className="bg-orange-100 rounded px-2 ">Assigned</span>
+								<span className="bg-orange-100 rounded px-2 ">
+									Current Assignments:{assignedLawyersSpan}
+								</span>
 							</div>
 						) : (
-							<div>Lawyer ID: {assignment.lawyer_id} </div>
+							""
 						)}
 					</div>
 					<div className="flex gap-2 mt-2">
 						<button
-							onClick={handleAccept}
+							onClick={updateAcceptedProperty}
 							disabled={selectedCase.accepted === 1}
 						>
 							Accept
@@ -285,9 +331,7 @@ export default function Admin() {
 									request_id: "",
 								});
 							}}
-							disabled={
-								selectedCase.accepted === 0 || selectedCase.assigned === 1
-							}
+							disabled={selectedCase.accepted === 0}
 						>
 							Assign
 						</button>

@@ -34,7 +34,7 @@ router.post(
 			let results = await db(sqlInsert);
 
 			// get a full table with all lawyer details and assignments
-			const sqlJoin = `select * from lawyer_assignments inner join lawyers on lawyer_assignments.lawyer_id=lawyers.id inner join requests on requests.id=lawyer_assignments.request_id order by lawyers.id;`;
+			const sqlJoin = `select * from lawyer_assignments inner join lawyers on lawyer_assignments.lawyer_id=lawyers.id inner join requests on requests.id=lawyer_assignments.request_id order by requests.id;`;
 			results = await db(sqlJoin);
 
 			if (results.data.length) {
