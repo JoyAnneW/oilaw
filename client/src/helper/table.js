@@ -15,4 +15,10 @@ const lawyerTableHeadings = [
 	"Contact Details",
 ].map((heading) => <th>{heading}</th>);
 
-export { caseTableHeadings, lawyerTableHeadings };
+const allAssignmentHeadings = [
+	"Lawyer ID",
+	"Lawyer Name",
+	"Case ID",
+	"Client Name",
+].map((heading) => <th>{heading}</th>);
+export { caseTableHeadings, lawyerTableHeadings, allAssignmentHeadings };

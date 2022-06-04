@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import { HiOutlinePhone } from "react-icons/hi";
 import { HiOutlineMail } from "react-icons/hi";
 import Table from "../components/Table";
-import { caseTableHeadings, lawyerTableHeadings } from "../helper/table";
+import {
+	caseTableHeadings,
+	lawyerTableHeadings,
+	allAssignmentHeadings,
+} from "../helper/table";
 
 export default function Admin() {
 	const [caseData, setCaseData] = useState([]);
@@ -84,8 +88,6 @@ export default function Admin() {
 		setSelectedCase(selected);
 	};
 
-	console.log({ assignment });
-
 	const makeAssignment = async () => {
 		try {
 			const response = await fetch("http://localhost:5000/api/assignments", {
@@ -143,12 +145,8 @@ export default function Admin() {
 		}
 	};
 
-	const getAssignedLawyer = (request) => {
-		const assignedLawyer = allAssignments.find(
-			(lawyer) => lawyer.request_id === request.id
-		);
-		return assignedLawyer;
-	};
+	console.log({ assignment });
+	console.log({ selectedCase });
 
 	const getStatus = (request) => {
 		if (request.accepted === 0) {
@@ -221,21 +219,35 @@ export default function Admin() {
 		);
 	});
 
+	const allAssignmentRows = allAssignments.map((assignmentObj, index) => {
+		return (
+			<tr key={assignmentObj.id}>
+				<td>{assignmentObj.lawyer_id}</td>
+				<td>{assignmentObj.lawyer_id}</td>
+				<td>{assignmentObj.request_id}</td>
+			</tr>
+		);
+	});
+
 	return (
-		<div className="flex p-6">
-			<div className="w-1/2 overflow-x-auto">
-				<Table
-					caption="Case Details"
-					tableHeadings={caseTableHeadings}
-					tableRows={caseTableRows}
-				/>
-				<Table
-					caption="Lawyer Details"
-					tableHeadings={lawyerTableHeadings}
-					tableRows={lawyerTableRows}
-				/>
-			</div>
-			<div className="w-1/2 p-6 ">
+		<div className="w-full">
+			<div className="flex p-3 pt-7 gap-3">
+				<div className="w-2/6 overflow-auto">
+					<Table
+						caption="Lawyer Details"
+						tableHeadings={lawyerTableHeadings}
+						tableRows={lawyerTableRows}
+						captionStyles="text-base font-bold absolute top-28  z-30"
+					/>
+				</div>
+				<div className="w-3/6 overflow-x-auto">
+					<Table
+						caption="Case Details"
+						tableHeadings={caseTableHeadings}
+						tableRows={caseTableRows}
+						captionStyles="text-base font-bold absolute top-28  z-30"
+					/>
+				</div>
 				<div className="border border-orange-50 shadow w-min p-3 ">
 					<div className="flex flex-col gap-2">
 						<span className="font-bold">
@@ -249,7 +261,13 @@ export default function Admin() {
 						</span>
 					</div>
 					<div className="">
-						<div>Lawyer ID: {assignment.lawyer_id} </div>
+						{selectedCase.assigned ? (
+							<div>
+								<span className="bg-orange-100 rounded px-2 ">Assigned</span>
+							</div>
+						) : (
+							<div>Lawyer ID: {assignment.lawyer_id} </div>
+						)}
 					</div>
 					<div className="flex gap-2 mt-2">
 						<button
@@ -267,13 +285,24 @@ export default function Admin() {
 									request_id: "",
 								});
 							}}
-							disabled={selectedCase.accepted === 0}
+							disabled={
+								selectedCase.accepted === 0 || selectedCase.assigned === 1
+							}
 						>
 							Assign
 						</button>
 						<button disabled={selectedCase.accepted === 0}>Resolved</button>
 					</div>
 				</div>
+			</div>
+
+			<div className="p-6 mx-auto w-min">
+				<Table
+					caption="All Assignments"
+					tableHeadings={allAssignmentHeadings}
+					tableRows={allAssignmentRows}
+					captionStyles={""}
+				/>
 			</div>
 		</div>
 	);

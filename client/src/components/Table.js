@@ -1,10 +1,15 @@
 import React from "react";
 
-export default function Table({ caption, tableHeadings, tableRows }) {
+export default function Table({
+	caption,
+	tableHeadings,
+	tableRows,
+	captionStyles,
+}) {
 	return (
 		<table className="w-full border-separate">
-			<caption className="text-base">{caption}</caption>
-			<thead>
+			<caption className={captionStyles}>{caption}</caption>
+			<thead className="text-sm">
 				<tr>{tableHeadings}</tr>
 			</thead>
 			<tbody>{tableRows}</tbody>

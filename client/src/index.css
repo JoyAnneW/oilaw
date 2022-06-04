@@ -40,7 +40,7 @@
 	}
 
 	table {
-		@apply border border-orange-50 shadow text-left text-xs md:text-sm;
+		@apply border border-orange-50 shadow text-left text-xs;
 	}
 
 	table thead th {
