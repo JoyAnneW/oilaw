@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { HiOutlinePhone } from "react-icons/hi";
 import { HiOutlineMail } from "react-icons/hi";
+import { BsCheckCircle } from "react-icons/bs";
 import Table from "../components/Table";
 import {
 	caseTableHeadings,
@@ -247,7 +248,7 @@ export default function Admin() {
 					{lawyer.first_name} {lawyer.last_name}
 				</td>
 				<td>{lawyer.specialty}</td>
-				<td>{lawyer.available}</td>
+				<td>{lawyer.available === 1 ? <BsCheckCircle /> : ""}</td>
 				<td>
 					<div className="flex gap-2 items-center">
 						<HiOutlinePhone /> {lawyer.phone}
@@ -264,9 +265,13 @@ export default function Admin() {
 		return (
 			<tr key={index}>
 				<td>{assignmentObj.lawyer_id}</td>
-				<td>{"Name not in this table"}</td>
+				<td>
+					{assignmentObj.lusers_fname} {assignmentObj.lusers_lname}
+				</td>
 				<td>{assignmentObj.request_id}</td>
-				<td>{"Name not in this table"}</td>
+				<td>
+					{assignmentObj.rusers_fname} {assignmentObj.rusers_lname}
+				</td>
 			</tr>
 		);
 	});
@@ -279,7 +284,7 @@ export default function Admin() {
 						caption="Lawyer Details"
 						tableHeadings={lawyerTableHeadings}
 						tableRows={lawyerTableRows}
-						captionStyles="text-base font-bold absolute top-28  z-30"
+						captionStyles="text-base font-bold absolute top-20  z-30"
 					/>
 				</div>
 				<div className="w-3/6 overflow-x-auto">
@@ -287,7 +292,7 @@ export default function Admin() {
 						caption="Case Details"
 						tableHeadings={caseTableHeadings}
 						tableRows={caseTableRows}
-						captionStyles="text-base font-bold absolute top-28  z-30"
+						captionStyles="text-base font-bold absolute top-20  z-30"
 					/>
 				</div>
 
@@ -349,7 +354,7 @@ export default function Admin() {
 					caption="All Assignments"
 					tableHeadings={allAssignmentHeadings}
 					tableRows={allAssignmentRows}
-					captionStyles={""}
+					captionStyles={"text-base font-bold "}
 				/>
 			</div>
 		</div>

@@ -119,7 +119,7 @@ export default function Profile() {
 				tableRows={profileTableRows}
 				captionStyles={"text-base font-bold"}
 			/>
-			<label htmlFor="available">available</label>
+			{/* <label htmlFor="available">available</label>
 			<input
 				type="radio"
 				name="availability"
@@ -132,7 +132,7 @@ export default function Profile() {
 				required
 				checked={checkedValue === "available"}
 				className="ml-auto"
-			/>{" "}
+			/>{" "} */}
 		</div>
 	);
 }
