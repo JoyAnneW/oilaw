@@ -10,6 +10,7 @@ import ContactForm from "./components/ContactForm";
 import Profile from "./pages/Profile";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Home from "./pages/Home";
 
 function App() {
 	const [token, setToken] = useState(null);
@@ -17,7 +18,7 @@ function App() {
 
 	console.log({ token });
 	return (
-		<div className="">
+		<div className="p-6">
 			<ToastContainer
 				position="top-center"
 				transition={Slide}
@@ -26,7 +27,7 @@ function App() {
 			<BrowserRouter>
 				<NavBar token={token} setToken={setToken} setRole={setRole} />
 				<Routes>
-					<Route path="/" element={<ContactForm />} />
+					<Route path="/" element={<Home />} />
 					<Route
 						exact
 						path="/login"

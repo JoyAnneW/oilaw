@@ -65,7 +65,7 @@ export default function ContactForm() {
 	};
 
 	return (
-		<div className="p-6 w-6/12 mx-auto ">
+		<div className="p-6 w-6/12 mx-auto mt-6 bg-orange-50 mt-6 ">
 			<form
 				method="POST"
 				action="http://localhost:5000/api/requesters"

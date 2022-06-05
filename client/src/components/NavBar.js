@@ -13,7 +13,7 @@ export default function NavBar({ token, setToken, setRole }) {
 	};
 	console.log({ token });
 	return (
-		<nav className="flex justify-between bg-orange-50 px-6 py-4">
+		<nav className="flex justify-between bg-orange-50  px-6 py-4 mb-4 rounded-t-lg">
 			<Link to="/">
 				<h1 className="tracking-tighter text-green-900" onClick={logout}>
 					Oilaw
