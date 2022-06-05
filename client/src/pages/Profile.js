@@ -2,12 +2,22 @@ import React, { useState, useEffect } from "react";
 import Table from "../components/Table";
 import { HiOutlinePhone } from "react-icons/hi";
 import { HiOutlineMail } from "react-icons/hi";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { CgProfile } from "react-icons/cg";
 
 export default function Profile() {
-	// only name and lawyer id
+	// only name and lawyer id, availability
 	const [personalDetails, setPersonalDetails] = useState({});
 	const [caseDetails, setCaseDetails] = useState([]);
+	const [checkedValue, setCheckedValue] = useState("");
+	const [isAvailable, setIsAvailable] = useState(1);
 
+	const handleInputChange = (event) => {
+		const name = event.target.name;
+		const value = event.target.value;
+		setIsAvailable();
+	};
 	const getPersonalDetails = async () => {
 		try {
 			const response = await fetch(
@@ -93,13 +103,36 @@ export default function Profile() {
 	});
 
 	return (
-		<div>
-			<h2>Welcome back {personalDetails.first_name}!</h2>
+		<div className="p-6">
+			<div>
+				Logged in as: {personalDetails.first_name} {personalDetails.last_name}
+			</div>
+			<div>
+				You are currently{" "}
+				{personalDetails.available === 1 ? "available" : "not available"}
+				to take on cases.
+			</div>
+			{personalDetails.available}
 			<Table
 				caption="Your Cases"
 				tableHeadings={profileTableHeadings}
 				tableRows={profileTableRows}
+				captionStyles={"text-base font-bold"}
 			/>
+			<label htmlFor="available">available</label>
+			<input
+				type="radio"
+				name="availability"
+				id="available"
+				value="available"
+				onChange={(event) => {
+					handleInputChange(event);
+					setCheckedValue(event.target.value);
+				}}
+				required
+				checked={checkedValue === "available"}
+				className="ml-auto"
+			/>{" "}
 		</div>
 	);
 }

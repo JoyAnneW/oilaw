@@ -13,14 +13,14 @@ export default function NavBar({ token, setToken, setRole }) {
 	};
 	console.log({ token });
 	return (
-		<nav className="flex justify-between bg-orange-50 p-6">
+		<nav className="flex justify-between bg-orange-50 px-6 py-4">
 			<Link to="/">
 				<h1 className="tracking-tighter text-green-900" onClick={logout}>
 					Oilaw
 				</h1>
 			</Link>
 			<div className="flex items-center ">
-				{token ? (
+				{localStorage.getItem("token") ? (
 					<button onClick={logout}>Log Out</button>
 				) : (
 					<div className="flex items-center gap-2 text-lg tracking-wide">

@@ -32,14 +32,14 @@ router.post("/", async (req, res, next) => {
 	}
 });
 
-// Get name and lawyer id from lawyers table
+// Get name and lawyer id from lawyers table, availability
 router.get("/profile", validateToken, async (req, res) => {
 	// this is users.id from users table.
 	const { id, first_name, last_name, email, role } = req.user;
 	// console.log(first_name, last_name, role);
 
 	try {
-		const sqlJoin = `SELECT users.first_name, lawyers.id AS lawyer_id FROM users INNER JOIN lawyers ON lawyers.user_id=${id} AND users.email='${email}';`;
+		const sqlJoin = `SELECT users.first_name, lawyers.id AS lawyer_id, available FROM users INNER JOIN lawyers ON lawyers.user_id=${id} AND users.email='${email}';`;
 
 		const results = await db(sqlJoin);
 
@@ -62,7 +62,7 @@ router.get("/profile/cases/:lawyer_id", validateToken, async (req, res) => {
 	try {
 		// const sqlJoin = `SELECT * from lawyer_assignments INNER JOIN lawyers ON lawyers.id=lawyer_assignments.lawyer_id INNER JOIN users ON users.id=lawyers.user_id AND users.email='${email}'INNER JOIN requests ON requests.id=lawyer_assignments.request_id;`;
 
-		const sqlJoin = `SELECT * from lawyer_assignments INNER JOIN requests ON requests.id=lawyer_assignments.request_id AND lawyer_id=${lawyer_id} INNER JOIN requesters ON requesters.id=requests.requester_id INNER JOIN users ON users.id=requesters.user_id;`;
+		const sqlJoin = `SELECT * from lawyer_assignments INNER JOIN lawyers ON lawyers.id=lawyer_assignments.lawyer_id INNER JOIN requests ON requests.id=lawyer_assignments.request_id AND lawyer_id=${lawyer_id} INNER JOIN requesters ON requesters.id=requests.requester_id INNER JOIN users ON users.id=requesters.user_id;`;
 		const results = await db(sqlJoin);
 
 		if (results.data.length) {

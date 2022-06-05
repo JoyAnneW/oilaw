@@ -192,7 +192,7 @@ export default function Admin() {
 		} else if (request.accepted === 1 && request.assigned === 0) {
 			return <span className="bg-yellow-100 rounded px-2 ">pending</span>;
 		} else if (request.assigned === 1) {
-			return <span className="bg-orange-100 rounded px-2 ">assigned</span>;
+			return <span className="bg-orange-200 rounded px-2 ">assigned</span>;
 		}
 	};
 	// onclick of these table rows, I get the requestid and the lawyerid to pass to the backend to make the assignments
@@ -304,11 +304,15 @@ export default function Admin() {
 						</span>
 					</div>
 					<div className="">
-						<div>Lawyer ID: {assignment.lawyer_id} </div>
+						<div>
+							<span className="font-bold">Lawyer ID: </span>
+							{assignment.lawyer_id}{" "}
+						</div>
 						{selectedCase.assigned ? (
-							<div>
+							<div className="my-4">
 								<span className="bg-orange-100 rounded px-2 ">
-									Current Assignments:{assignedLawyersSpan}
+									<span className="font-bold"> Current Assignments:</span>
+									{assignedLawyersSpan}
 								</span>
 							</div>
 						) : (

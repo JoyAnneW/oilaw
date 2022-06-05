@@ -36,7 +36,7 @@ router.post("/", async (req, res, next) => {
 			if (!passwordIsCorrect) {
 				res.status(401).send({
 					accessToken: null,
-					message: "Incorrect password. Please try again.",
+					message: "Incorrect credentials. Please try again.",
 				});
 			}
 			// generate access token. need to await here as well or an empty object will be returned since this code is sync, but the token from the async jwt.sign hasn't arrived yet
