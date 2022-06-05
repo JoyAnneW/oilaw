@@ -1,106 +1,47 @@
-# oilaw
-Project to help people to get legal advise/consultation.
+# Oilaw
 
-# Full Stack To Do App
+CodeOp Full Stack Feature Extension. This web app allows women in need to connect with lawyers who can give them free legal advice.
 
-In this repository, you will use build a full stack To Do app using React, Node/Express, and MySQL.
+## Setup Instructions
 
-## Objectives
+Two terminal windows are required:
 
-- Build a database.
-- Build an API server.
-- Create a front end.
+- Backend: Run `yarn migrate` to create the database tables. Run `yarn` in the project's root folder to install Node dependencies. `yarn start` in the root folder starts the Express server on port 5000.
+- Frontend: `cd client` to navigate to the client folder, then run `yarn` to install React dependencies. `yarn start` starts the client server on port 3000.
 
-## Setup
+A `.env` file is needed to setup the database.
 
-### Dependencies
+## Features
 
-Run `yarn` in the project folder to install dependencies related to Express (the server).
+- Clients can submit only one request for assistance via a contact form on the landing page.
+- Lawyers can sign up to create an account. Passwords are hashed and stored in the database and a JWT token is issued to authenticate users.
+- In their account, lawyers can see all information about the cases assigned to them, change their availability and mark their cases as resolved. One lawyer can work on more than one case.
+- The admin account shows all lawyers, all case details and all assignments. The admin can accept cases, assign cases to lawyers and track the lifecycle of all cases.
 
-`cd client` and run `yarn` install dependencies related to React (the client).
+## Technologies
 
-### Database Prep
+### Frontend
 
-Create `.env` file in project directory and add
+- React
+- Tailwind CSS
+- React Router
 
-```
-DB_NAME=todos
-DB_PASS=YOUR_PASSWORD
-```
+### Backend
 
-(replace `YOUR_PASSWORD` with your actual password)
+- MySQL Database
+- Node JS
+- Express JS
+- Postman
 
-Alternatively, you can rename the provided `.env.example` file to `.env`.
+### Packages
 
-Type `mysql -u root -p` to access the MySQL CLI using your password.
+- React-icons
+- bcrypt
+- jsonwebtoken
+- React-toastify
 
-In the MySQL CLI, type `create database todos;` to create a database in MySQL.
+## MySQL Database Schema
 
-Run the following in the MySQL CLI: `ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'YOUR_PASSWORD';` (replace `YOUR_PASSWORD` with your actual password)
-
-Run `node model/database.js` in your **TERMINAL**, in the **project** folder (not your MySQL CLI! Open a new terminal window for this). This will create a table called 'items' in your database.
-
-### Run Your Development Servers
-
-- Run `yarn start` in project directory to start the Express server on port 5000
-- `cd client` and run `yarn start` to start client server in development mode with hot reloading in port 3000.
-- Client is configured so all API calls will be proxied to port 5000 for a smoother development experience. Yay!
-- You can test your client app in `http://localhost:3000`
-- You can test your API in `http://localhost:5000/api`
-
-## Basic Requirements
-
-### 1. Read through all the current code and explain it to your partner.
-
-- [ ] Explain what each line of code is doing.
-  - Look at the docs and ask your instructor if you aren't sure!
-
-### 2. Finish the routes
-
-Suggested Process:
-
-- Try and write the correct query in `mysql`.
-- Use that query to finish the endpoint in `routes/api.js`.
-- Test your endpoint using Postman.
-
-To Do:
-
-- [ ] Use Postman to confirm that you have completed these correctly
-- [ ] GET `/api/todos` should retrieve all resources.
-  - This route is almost complete!
-- [ ] POST `/api/todos` should create a new resource.
-  - To test that your query is correct, check to see if your new resource exists using `mysql`.
-  - To test your route, use Postman to see if GET `api/todos` returns your new resources.
-- [ ] PUT `/api/todos/:id` should replace a resource.
-  - To test that your query is correct, check to see if your updated resource exists using `mysql`.
-  - To test your route, use Postman to see if GET `api/todos` includes your updated resources.
-- [ ] DELETE `/api/todos/:id` should delete a resource.
-  - To test that your query is correct, check to see if your resource was deleted using `mysql`.
-  - To test your route, use Postman to see if GET `api/todos` does not include your new resources.
-
-### 3. Finish the front end
-
-- [ ] Spend time reviewing the existing code in `client/src/App.js`.
-- [ ] Finish populating `tasks` from the API call in `useEffect`.
-  - Read about `useEffect` [in the React Docs](https://reactjs.org/docs/hooks-effect.html)
-- [ ] Then, add a list of tasks to the DOM. Each task should have the following:
-  - The text of the task.
-  - A strike through (using CSS) if the task is complete.
-  - Two buttons:
-    - One button to mark the task complete (this should call the updateTask function)
-    - One button to delete the task (this should call the deleteTask function)
-- [ ] Finish the updateTask function so it calls the server.
-- [ ] Finish the deleteTask function so it calls the server.
-- [ ] Add styling.
-
-## Resources
-
-- [MySQL Cheat Sheet](http://www.mysqltutorial.org/mysql-cheat-sheet.aspx)
-- [MySQL](https://dev.mysql.com/doc/refman/8.0/en/database-use.html)
-- [Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
-- [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
-- [React Documentation](https://reactjs.org/docs/hello-world.html)
-
-## Notes
+![Practicum Database Schema](/model/Oilaw%20DB%20Schema.png)
 
 _This is a student project that was created at [CodeOp](http://CodeOp.tech), a full stack development bootcamp in Barcelona._
