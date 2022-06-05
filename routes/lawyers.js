@@ -54,6 +54,7 @@ router.get("/profile", validateToken, async (req, res) => {
 	}
 });
 
+// this gets caseDetails
 router.get("/profile/cases/:lawyer_id", validateToken, async (req, res) => {
 	const { first_name, last_name, email, role } = req.user;
 	const { lawyer_id } = req.params;
@@ -76,6 +77,7 @@ router.get("/profile/cases/:lawyer_id", validateToken, async (req, res) => {
 	}
 });
 
+// update availability
 router.put(
 	"/:user_id/available/:lawyer_id",
 	validateToken,
@@ -108,6 +110,40 @@ router.put(
 			}
 		} catch (error) {
 			res.status(500).send({ error });
+		}
+	}
+);
+
+// update completed. id is request id
+router.put(
+	"/:request_id/completed/:lawyer_id",
+	validateToken,
+	async (req, res, next) => {
+		const { request_id, lawyer_id } = req.params;
+		const { completed } = req.body;
+
+		try {
+			// find the specific request
+			let results = await db(`SELECT * FROM requests WHERE id=${request_id}`);
+			// if it is found,  use the sql instructions for updating this item
+			if (results.data.length) {
+				const sql = `UPDATE requests SET completed=${completed} WHERE id=${request_id};`;
+				// this replaces the specified item
+				await db(sql);
+
+				const sqlJoin = `SELECT * from lawyer_assignments INNER JOIN lawyers ON lawyers.id=lawyer_assignments.lawyer_id INNER JOIN requests ON requests.id=lawyer_assignments.request_id AND lawyer_id=${lawyer_id} INNER JOIN requesters ON requesters.id=requests.requester_id INNER JOIN users ON users.id=requesters.user_id;`;
+
+				results = await db(sqlJoin);
+				if (results.data.length) {
+					// console.log(results.data);
+					res.status(200).send(results.data);
+				} else {
+					res.status(404).send({ error: "Resource not found" });
+				}
+			}
+		} catch (err) {
+			console.log(err);
+			res.status(500).send({ Error: err });
 		}
 	}
 );

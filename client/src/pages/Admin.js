@@ -166,25 +166,6 @@ export default function Admin() {
 		}
 	};
 
-	const updateCompletedProperty = async () => {
-		try {
-			const response = await fetch(
-				`http://localhost:5000/api/admin/${selectedCase.id}/completed`,
-				{
-					method: "PUT",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({ assigned: "true" }),
-				}
-			);
-			const jsonResponse = await response.json();
-			setCaseData(jsonResponse);
-		} catch (error) {
-			console.log(error);
-		}
-	};
-
 	console.log({ assignment });
 	console.log({ selectedCase });
 
@@ -193,8 +174,10 @@ export default function Admin() {
 			return <span className="bg-red-100 rounded px-2 ">not accepted</span>;
 		} else if (request.accepted === 1 && request.assigned === 0) {
 			return <span className="bg-yellow-100 rounded px-2 ">pending</span>;
-		} else if (request.assigned === 1) {
+		} else if (request.assigned === 1 && request.completed === 0) {
 			return <span className="bg-orange-200 rounded px-2 ">assigned</span>;
+		} else if (request.completed === 1) {
+			return <span className="bg-green-200 rounded px-2 ">resolved</span>;
 		}
 	};
 	// onclick of these table rows, I get the requestid and the lawyerid to pass to the backend to make the assignments
@@ -357,7 +340,6 @@ export default function Admin() {
 						>
 							Assign
 						</button>
-						<button disabled={selectedCase.accepted === 0}>Resolved</button>
 					</div>
 				</div>
 			</div>
