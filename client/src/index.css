@@ -59,3 +59,26 @@
 		@apply hover:bg-orange-50 cursor-pointer;
 	}
 }
+
+/* for customizing the scrollbar */
+@layer utilities {
+	.scrollbar::-webkit-scrollbar {
+		width: 20px;
+		height: 20px;
+	}
+
+	.scrollbar::-webkit-scrollbar-track {
+		border-radius: 100vh;
+		background: rgb(255 247 237);
+	}
+
+	.scrollbar::-webkit-scrollbar-thumb {
+		background: rgba(20, 83, 45, 0.4);
+		border-radius: 100vh;
+		border: 3px solid #f6f7ed;
+	}
+
+	.scrollbar::-webkit-scrollbar-thumb:hover {
+		background: rgba(20, 83, 45, 0.5);
+	}
+}

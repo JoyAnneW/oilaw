@@ -291,7 +291,8 @@ export default function Admin() {
 	return (
 		<div className="w-full">
 			<div className="flex p-3 pt-7 gap-3">
-				<div className="w-2/6 overflow-auto">
+				{/* need to add the class scrollbar to access tailwind utilities to style scrollbar */}
+				<div className="w-2/6 overflow-auto scrollbar">
 					<Table
 						caption="Lawyer Details"
 						tableHeadings={lawyerTableHeadings}
@@ -299,7 +300,7 @@ export default function Admin() {
 						captionStyles="text-base font-bold absolute top-20  z-30"
 					/>
 				</div>
-				<div className="w-3/6 overflow-x-auto">
+				<div className="w-3/6 overflow-auto scrollbar">
 					<Table
 						caption="Case Details"
 						tableHeadings={caseTableHeadings}
