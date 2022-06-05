@@ -239,9 +239,14 @@ export default function Admin() {
 	const lawyerTableRows = allLawyers.map((lawyer) => {
 		return (
 			<tr
+				className={lawyer.available === 0 ? "hover:bg-red-50" : ""}
 				key={lawyer.id}
 				onClick={() => {
-					setAssignment({ ...assignment, lawyer_id: lawyer.id });
+					if (lawyer.available) {
+						setAssignment({ ...assignment, lawyer_id: lawyer.id });
+					} else {
+						setAssignment({ ...assignment, lawyer_id: "" });
+					}
 				}}
 			>
 				<td className="sticky left-0 bg-white">{lawyer.id}</td>
