@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { HiOutlinePhone } from "react-icons/hi";
 import { HiOutlineMail } from "react-icons/hi";
 import { BsCheckCircle } from "react-icons/bs";
+import { IoBanOutline } from "react-icons/io5";
 import Table from "../components/Table";
 import {
 	caseTableHeadings,
@@ -248,7 +249,13 @@ export default function Admin() {
 					{lawyer.first_name} {lawyer.last_name}
 				</td>
 				<td>{lawyer.specialty}</td>
-				<td>{lawyer.available === 1 ? <BsCheckCircle /> : ""}</td>
+				<td>
+					{lawyer.available === 1 ? (
+						<BsCheckCircle className="text-lg font-bold text-green-900" />
+					) : (
+						<IoBanOutline className="text-lg font-bold text-red-900" />
+					)}
+				</td>
 				<td>
 					<div className="flex gap-2 items-center">
 						<HiOutlinePhone /> {lawyer.phone}

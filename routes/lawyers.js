@@ -32,14 +32,14 @@ router.post("/", async (req, res, next) => {
 	}
 });
 
-// Get name and lawyer id from lawyers table, availability
+// Get user id, name and lawyer id from lawyers table, availability
 router.get("/profile", validateToken, async (req, res) => {
 	// this is users.id from users table.
 	const { id, first_name, last_name, email, role } = req.user;
 	// console.log(first_name, last_name, role);
 
 	try {
-		const sqlJoin = `SELECT users.first_name, lawyers.id AS lawyer_id, available FROM users INNER JOIN lawyers ON lawyers.user_id=${id} AND users.email='${email}';`;
+		const sqlJoin = `SELECT users.id AS user_id, users.first_name, users.last_name, lawyers.id AS lawyer_id, available FROM users INNER JOIN lawyers ON lawyers.user_id=${id} AND users.email='${email}';`;
 
 		const results = await db(sqlJoin);
 
@@ -75,4 +75,41 @@ router.get("/profile/cases/:lawyer_id", validateToken, async (req, res) => {
 		res.status(500).send({ Error: err });
 	}
 });
+
+router.put(
+	"/:user_id/available/:lawyer_id",
+	validateToken,
+	async (req, res, next) => {
+		const { email } = req.user;
+		const { user_id, lawyer_id } = req.params;
+		const { available } = req.body;
+		console.log(req.body);
+		if (!req.params) return res.send("NO PARAMS PASSED");
+		try {
+			// find the specific lawyer
+			let results = await db(
+				`SELECT * FROM lawyers WHERE lawyers.id=${lawyer_id}`
+			);
+			if (results.data.length) {
+				const sql = `UPDATE lawyers SET available=${available} WHERE id=${lawyer_id};`;
+				// this updates the specified item
+				await db(sql);
+
+				const sqlJoin = `SELECT users.id AS user_id, users.first_name, users.last_name, lawyers.id AS lawyer_id, available FROM users INNER JOIN lawyers ON lawyers.user_id=${user_id} AND users.email='${email}';`;
+				console.log({ sqlJoin });
+				// make another call to db to get personaldetails
+				results = await db(sqlJoin);
+				if (results.data.length) {
+					// console.log(results.data);
+					res.status(200).send(results.data);
+				} else {
+					res.status(404).send({ error: "Resource not found" });
+				}
+			}
+		} catch (error) {
+			res.status(500).send({ error });
+		}
+	}
+);
+
 module.exports = router;

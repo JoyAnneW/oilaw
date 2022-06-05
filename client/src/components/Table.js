@@ -5,9 +5,10 @@ export default function Table({
 	tableHeadings,
 	tableRows,
 	captionStyles,
+	lawyerTableFontSize = "",
 }) {
 	return (
-		<table className="w-full border-separate">
+		<table className={`w-full border-separate ${lawyerTableFontSize}`}>
 			<caption className={captionStyles}>{caption}</caption>
 			<thead className="text-sm">
 				<tr>{tableHeadings}</tr>
