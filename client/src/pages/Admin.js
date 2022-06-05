@@ -228,6 +228,7 @@ export default function Admin() {
 					if (lawyer.available) {
 						setAssignment({ ...assignment, lawyer_id: lawyer.id });
 					} else {
+						// to prevent unavailable lawyer from being assigned
 						setAssignment({ ...assignment, lawyer_id: "" });
 					}
 				}}
@@ -291,7 +292,7 @@ export default function Admin() {
 						captionStyles="text-base font-bold absolute top-20  z-30"
 					/>
 				</div>
-
+				{/* ****************************CASE MANAGEMENT SECTION************************************ */}
 				<div className="border border-orange-50 shadow w-min p-3 text-sm">
 					<div className="flex flex-col gap-2">
 						<span className="font-bold">
@@ -335,6 +336,8 @@ export default function Admin() {
 									lawyer_id: "",
 									request_id: "",
 								});
+								// this makes sure the assignments table will populate as soon as an assignment has been made
+								getAllAssignments();
 							}}
 							disabled={selectedCase.accepted === 0}
 						>
