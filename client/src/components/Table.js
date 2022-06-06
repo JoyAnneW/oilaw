@@ -9,7 +9,9 @@ export default function Table({
 }) {
 	return (
 		<table className={`w-full border-separate ${lawyerTableFontSize}`}>
-			<caption className={captionStyles}>{caption}</caption>
+			<caption className={`text-base font-bold mb-2 ${captionStyles}`}>
+				{caption}
+			</caption>
 			<thead className="text-sm">
 				<tr>{tableHeadings}</tr>
 			</thead>

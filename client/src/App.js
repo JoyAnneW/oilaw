@@ -22,7 +22,7 @@ function App() {
 			<ToastContainer
 				position="top-center"
 				transition={Slide}
-				autoClose={2000}
+				autoClose={2500}
 			/>
 			<BrowserRouter>
 				<NavBar token={token} setToken={setToken} setRole={setRole} />

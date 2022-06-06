@@ -5,7 +5,7 @@ module.exports = {
 		extend: {
 			backgroundImage: {
 				// tilde infront of folder makes this work and display on page. in dev tools the url references a different folder.
-				'hero': "url('~/public/hero.png')",
+				'hero': "url('~/public/hero.webp')",
 			},
 		},
 	},
