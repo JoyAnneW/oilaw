@@ -184,6 +184,7 @@ export default function Admin() {
 	const caseTableRows = caseData.map((request, index) => {
 		return (
 			<tr
+				className={request.completed === 1 ? "hover:bg-green-200" : ""}
 				key={request.id}
 				onClick={(event) => {
 					// on click, get the specific case from caseData at the index of the clicked item
@@ -293,7 +294,7 @@ export default function Admin() {
 					/>
 				</div>
 				{/* ****************************CASE MANAGEMENT SECTION************************************ */}
-				<div className="border border-orange-50 shadow w-min p-3 text-sm">
+				<div className="border border-orange-50 shadow w-min p-3 text-sm self-start">
 					<div className="flex flex-col gap-2">
 						<span className="font-bold">
 							Case ID:{" "}

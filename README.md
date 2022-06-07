@@ -16,7 +16,7 @@ A `.env` file is needed to setup the database.
 - Clients can submit only one request for assistance via a contact form on the landing page.
 - Lawyers can sign up to create an account. Passwords are hashed and stored in the database and a JWT token is issued to authenticate users.
 - In their account, lawyers can see all information about the cases assigned to them, change their availability and mark their cases as resolved. One lawyer can work on more than one case.
-- The admin account shows all lawyers, all case details and all assignments. The admin can accept cases, assign cases to lawyers and track the lifecycle of all cases.
+- The admin account shows all lawyers, all case and client details and all assignments. The admin can accept cases, assign cases to lawyers and track the lifecycle of all cases.
 
 ## Technologies
 
