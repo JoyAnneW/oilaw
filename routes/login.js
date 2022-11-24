@@ -32,7 +32,7 @@ router.post("/", async (req, res, next) => {
 
 			// checks whether plain text password and hashed password are the same. returns true or false
 			const passwordIsCorrect = await bcrypt.compare(password, user.password);
-
+			console.log({ passwordIsCorrect });
 			if (!passwordIsCorrect) {
 				res.status(401).send({
 					accessToken: null,
@@ -41,7 +41,7 @@ router.post("/", async (req, res, next) => {
 			}
 			// generate access token. need to await here as well or an empty object will be returned since this code is sync, but the token from the async jwt.sign hasn't arrived yet
 			const accessToken = await generateAccessToken(user);
-			console.log({ accessToken });
+			console.log("from login.js", { accessToken });
 			res.send({
 				accessToken,
 				message: "Login Successful!",
@@ -49,13 +49,14 @@ router.post("/", async (req, res, next) => {
 				user_id: user.id,
 			});
 		} else {
-			console.log(results);
+			console.log("from login.js", results);
 			// in the front end I'm using error.message to access the message returned in case of incorrect credentials. I changed the key of the return obj here to be able to still use error.message in the toast.
 			res.status(404).send({ message: "User does not exist." });
 		}
 		// console.log({ user });
 	} catch (error) {
-		res.status(500).send({ Error: error });
+		console.log({ error });
+		res.status(500).send(error);
 	}
 });
 
